@@ -1,4 +1,5 @@
 const DiscordServiceProvider = require("../Services/DiscordServiceProvider.js")
+const User = require("../Models/User.js")
 
 async function oauthDiscord(req, res) {
     try {
@@ -6,7 +7,17 @@ async function oauthDiscord(req, res) {
 
         const { access_token: token } = data
 
-        const user = await DiscordServiceProvider.getUser(token)
+        const userData = await DiscordServiceProvider.getUser(token)
+        let user = await User.findBy("id", userData.id)
+
+        if (!user) {
+            user = new User({
+                id: userData.id,
+                username: userData.username,
+                avatar_id: userData.avatar
+            })
+            await user.store()
+        }
 
         res.send({ token, user })
     } catch (error) {
