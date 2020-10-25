@@ -1,5 +1,10 @@
 const Competition = require("../Models/Competition.js")
 
+async function getAll(req, res) {
+    const models = await Competition.getAll()
+    res.send(models)
+}
+
 async function create(req, res) {
     const model = new Competition({
         ...req.body,
@@ -49,4 +54,4 @@ async function remove(req, res) {
     res.send(model)
 }
 
-module.exports = { create, update, remove }
+module.exports = { getAll, create, update, remove }

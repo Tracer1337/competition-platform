@@ -138,6 +138,10 @@ const StorageFacade = {
         return fs.promises.copyFile(inputPath, path.join(LOCAL_STORAGE_DIR, filename))
     },
 
+    getFileLocal(filename) {
+        return fs.promises.readFile(path.join(LOCAL_STORAGE_DIR, filename))
+    },
+
     deleteFileLocal(filename) {
         return fs.promises.unlink(path.join(LOCAL_STORAGE_DIR, filename))
     },

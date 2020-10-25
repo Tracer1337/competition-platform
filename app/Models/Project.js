@@ -2,12 +2,14 @@ const { v4: uuid } = require("uuid")
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
 const User = require("../Models/User.js")
+const Competition = require("./Competition.js")
+const StorageFacade = require("../Facades/StorageFacade.js")
 
-class Competition extends Model {
+class Project extends Model {
     constructor(values) {
         super({
-            table: "competitions",
-            columns: ["id", "user_id", "briefing_text", "end_at", "created_at"],
+            table: "projects",
+            columns: ["id", "user_id", "competition_id", "description", "filename", "created_at"],
             defaultValues: {
                 id: () => uuid(),
                 created_at: () => moment()
@@ -19,6 +21,7 @@ class Competition extends Model {
     async init() {
         this.created_at = moment(this.created_at)
         this.user = await User.findBy("id", this.user_id)
+        this.competition = await Competition.findBy("id", this.competition_id)
     }
 
     getColumns() {
@@ -27,17 +30,26 @@ class Competition extends Model {
         return values
     }
 
+    async delete() {
+        if (this.filename) {
+            await StorageFacade.deleteFileLocal(this.filename)
+        }
+
+        return super.delete()
+    }
+
     toJSON() {
         return {
             id: this.id,
             user: this.user,
-            briefing_text: this.briefing_text,
-            end_at: this.end_at,
+            competition: this.competition,
+            description: this.description,
+            filename: this.filename,
             created_at: this.created_at
         }
     }
 }
 
-Model.bind(Competition, "competitions")
+Model.bind(Project, "projects")
 
-module.exports = Competition
+module.exports = Project

@@ -1,6 +1,8 @@
 const path = require("path")
 const multer = require("multer")
 
+const config = require("../../config")
+
 const ROOT_DIR = path.join(__dirname, "..", "..")
 
 const { randomFileName, getFileExtension } = require("../utils")
@@ -19,7 +21,11 @@ const upload = multer({
             const filename = randomFileName() + getFileExtension(file.originalname)
             callback(null, filename)
         }
-    })
+    }),
+    
+    limits: {
+        fileSize: config.maxUploadSize
+    }
 })
 
 module.exports = upload
