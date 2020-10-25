@@ -7,7 +7,7 @@ const AuthController = require("../app/Controllers/AuthController.js")
 
 const router = express.Router()
 
-router.post("/auth/register", AuthController.register)
-router.post("/auth/login", AuthController.login)
+router.get("/auth/discord", AuthController.oauthDiscord)
+router.get("/auth/profile", ProtectMiddleware, AuthController.getProfile)
 
 module.exports = router

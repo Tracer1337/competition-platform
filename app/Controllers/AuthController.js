@@ -1,34 +1,22 @@
-const User = require("../Models/User.js")
-const AuthServiceProvider = require("../Services/AuthServiceProvider.js")
+const DiscordServiceProvider = require("../Services/DiscordServiceProvider.js")
 
-async function register(req, res) {
-    const user = new User({
-        email: req.body.email,
-        username: req.body.username,
-        password: await AuthServiceProvider.hashPassword(req.body.password)
-    })
+async function oauthDiscord(req, res) {
+    try {
+        const data = await DiscordServiceProvider.requestToken(req.query.code)
 
-    await user.store()
+        const { access_token: token } = data
 
-    const token = AuthServiceProvider.generateToken(user.id)
+        const user = await DiscordServiceProvider.getUser(token)
 
-    res.send({ token, user })
-}
-
-async function login(req, res) {
-    const user = await User.findBy("email", req.body.email)
-
-    if (!await AuthServiceProvider.validatePassword(req.body.password, user.password)) {
-        return res.status(401).send({
-            password: {
-                message: "Wrong password"
-            }
-        })
+        res.send({ token, user })
+    } catch (error) {
+        console.error(error)
+        res.send({})
     }
-
-    const token = AuthServiceProvider.generateToken(user.id)
-
-    res.send({ token, user })
 }
 
-module.exports = { register, login }
+async function getProfile(req, res) {
+    res.send(req.user)
+}
+
+module.exports = { oauthDiscord, getProfile }

@@ -1,5 +1,4 @@
-const User = require("../Models/User.js")
-const AuthServiceProvider = require("../Services/AuthServiceProvider.js")
+const DiscordServiceProvider = require("../Services/DiscordServiceProvider.js")
 
 /**
  * Convert the given token to a user object
@@ -11,23 +10,17 @@ async function ProtectMiddleware(req, res, next) {
 
     const token = req.header("Authorization").split(" ")[1]
 
-    let userId
-
     try {
-        userId = await AuthServiceProvider.verifyToken(token)
+        const user = await DiscordServiceProvider.getUser(token)
+    
+        if (!user) {
+            throw new Error()
+        }
+    
+        req.user = user
     } catch {
-        return res.status(401).send("Invalid token")
+        return res.status(401).send({ error: "Invalid token" })
     }
-
-    const user = await User.findBy("id", userId)
-
-    if (!user) {
-        return res.status(401).send("Invalid token")
-    }
-
-    await user.init()
-
-    req.user = user
 
     next()
 }
