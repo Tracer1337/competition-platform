@@ -127,7 +127,11 @@ const StorageFacade = {
         })
     },
 
-    clearStorage: clearFolder.bind(null, DEV_BUCKET_DIR),
+    clearStorage() {
+        if (process.env.AWS_BUCKET) {
+            clearFolder(DEV_BUCKET_DIR)
+        }
+    },
 
 
     uploadFileLocal(inputPath, filename) {
