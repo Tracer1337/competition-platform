@@ -3,6 +3,7 @@ const moment = require("moment")
 const Model = require("../../lib/Model.js")
 const User = require("../Models/User.js")
 const Competition = require("./Competition.js")
+const Image = require("./Image.js")
 const StorageFacade = require("../Facades/StorageFacade.js")
 
 class Project extends Model {
@@ -22,6 +23,7 @@ class Project extends Model {
         this.created_at = moment(this.created_at)
         this.user = await User.findBy("id", this.user_id)
         this.competition = await Competition.findBy("id", this.competition_id)
+        this.images = await Image.findAllBy("project_id", this.id)
     }
 
     getColumns() {
@@ -35,6 +37,8 @@ class Project extends Model {
             await StorageFacade.deleteFileLocal(this.filename)
         }
 
+        await Promise.all(this.images.map(image => image.delete()))
+
         return super.delete()
     }
 
@@ -43,6 +47,7 @@ class Project extends Model {
             id: this.id,
             user: this.user,
             competition: this.competition,
+            images: this.images,
             description: this.description,
             filename: this.filename,
             created_at: this.created_at

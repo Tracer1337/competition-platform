@@ -1,12 +1,12 @@
-const fs = require("fs")
-
 const Project = require("../Models/Project.js")
 const Competition = require("../Models/Competition.js")
+const Image = require("../Models/Image.js")
 const StorageFacade = require("../Facades/StorageFacade.js")
-const { randomFileName, getFileExtension } = require("../utils")
+const FileServiceProvider = require("../Services/FileServiceProvider.js")
+const config = require("../../config")
 
 async function getAll(req, res) {
-    const models = await Project.findBy("user_id", req.user.id)
+    const models = await Project.findAllBy("user_id", req.user.id)
     res.send(models)
 } 
 
@@ -20,19 +20,31 @@ async function create(req, res) {
         user_id: req.user.id
     })
 
-    if (req.file) {
-        try {
-            const filename = randomFileName() + getFileExtension(req.file.filename)
-            await StorageFacade.uploadFileLocal(req.file.path, filename)
+    if (req.files.file) {
+        const filename = await FileServiceProvider.storeLocal(req.files.file[0])
+
+        if (filename) {
             model.filename = filename
-        } catch (error) {
-            console.error(error)
-        } finally {
-            await fs.promises.unlink(req.file.path)
         }
     }
 
     await model.store()
+
+    if (req.files.images) {
+        await Promise.all(req.files.images.map(async (file) => {
+            const filename = await FileServiceProvider.storeLocal(file)
+
+            if (filename) {
+                const image = new Image({
+                    user_id: req.user.id,
+                    project_id: model.id,
+                    filename
+                })
+
+                await image.store()
+            }
+        }))
+    }
 
     res.send(model)
 }
@@ -48,23 +60,41 @@ async function update(req, res) {
         return res.status(403).send()
     }
 
+    if (req.files.images && model.images.length + req.files.images.length > config.projects.maxUploadImages) {
+        return res.status(400).send({ error: "Too many images" })
+    }
+
     model.columns.forEach(column => {
         if (req.body[column]) {
             model[column] = req.body[column]
         }
     })
 
-    if (req.file) {
-        try {
-            await StorageFacade.deleteFileLocal(model.filename)
-            const newFilename = randomFileName() + getFileExtension(req.file.filename)
-            await StorageFacade.uploadFileLocal(req.file.path, newFilename)
-            model.filename = newFilename
-        } catch (error) {
-            console.error(error)
-        } finally {
-            await fs.promises.unlink(req.file.path)
+    if (req.files.file) {
+        await StorageFacade.deleteFileLocal(model.filename)
+        const filename = await FileServiceProvider.storeLocal(req.files.file[0])
+
+        if (filename) {
+            model.filename = filename
         }
+    }
+
+    if (req.files.images) {
+        await Promise.all(req.files.images.map(async (file) => {
+            const filename = await FileServiceProvider.storeLocal(file)
+
+            if (filename) {
+                const image = new Image({
+                    user_id: req.user.id,
+                    project_id: model.id,
+                    filename
+                })
+
+                await image.store()
+            }
+        }))
+
+        await model.init()
     }
 
     await model.update()
