@@ -28,9 +28,11 @@ router.post("/competitions/:id", ProtectMiddleware, CompetitionController.update
 router.delete("/competitions/:id", ProtectMiddleware, CompetitionController.remove)
 
 router.get("/projects", ProtectMiddleware, ProjectController.getAll)
-router.post("/projects", ProtectMiddleware, new Validator().uuid("competition_id"), projectsUploadMiddleware, ProjectController.create)
+router.post("/projects", ProtectMiddleware, projectsUploadMiddleware, ProjectController.create)
 router.post("/projects/:id", ProtectMiddleware, projectsUploadMiddleware, ProjectController.update)
 router.delete("/projects/:id", ProtectMiddleware, ProjectController.remove)
+router.post("/projects/vote/:id", ProtectMiddleware, ProjectController.vote)
+router.delete("/projects/vote/:id", ProtectMiddleware, ProjectController.deleteVote)
 
 router.get("/storage/:filename", ProtectMiddleware, StorageController.getFile)
 

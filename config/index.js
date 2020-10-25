@@ -5,6 +5,10 @@ module.exports = {
         maxUploadImages: 5
     },
 
+    competitions: {
+        maxVotesPerCompetition: 2
+    },
+
     discord: {
         api: {
             basename: "https://discord.com/api"
