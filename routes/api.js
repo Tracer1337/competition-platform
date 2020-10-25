@@ -23,7 +23,7 @@ router.get("/auth/discord", AuthController.oauthDiscord)
 router.get("/auth/profile", ProtectMiddleware, AuthController.getProfile)
 
 router.get("/competitions", ProtectMiddleware, CompetitionController.getAll)
-router.post("/competitions", ProtectMiddleware, CompetitionController.create)
+router.post("/competitions", ProtectMiddleware, new Validator().text("title"), CompetitionController.create)
 router.post("/competitions/:id", ProtectMiddleware, CompetitionController.update)
 router.delete("/competitions/:id", ProtectMiddleware, CompetitionController.remove)
 

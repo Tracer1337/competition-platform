@@ -14,6 +14,8 @@ async function ProtectMiddleware(req, res, next) {
     try {
         const data = await DiscordServiceProvider.getUser(token)
         const user = await User.findBy("id", data.id)
+        
+        user.setData(data)
     
         if (!user) {
             throw new Error()

@@ -43,7 +43,7 @@ function serveStaticFiles() {
  */
 if (process.env.NODE_ENV === "development") {
     // Proxy react dev-server
-    rootRouter.use("/editor", createProxyMiddleware({
+    rootRouter.use("/", createProxyMiddleware({
         target: "http://localhost:3000/",
         ws: true
     }))

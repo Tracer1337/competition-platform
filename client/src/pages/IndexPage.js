@@ -1,18 +1,18 @@
 import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
+import { Link } from "react-router-dom"
+import { Button } from "@material-ui/core"
 
-const useStyles = makeStyles(theme => ({
-    
-}))
+import Layout from "../components/Layout/Layout.js"
 
-function AuthPage() {
-    const classes = useStyles()
-    
+
+function IndexPage() {
     return (
-        <div>
-
-        </div>
+        <Layout>
+            <Link to="/create-competition">
+                <Button variant="contained">Create Competition</Button>
+            </Link>
+        </Layout>
     )
 }
 
-export default AuthPage
+export default IndexPage

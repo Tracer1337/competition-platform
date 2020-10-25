@@ -7,7 +7,7 @@ class Competition extends Model {
     constructor(values) {
         super({
             table: "competitions",
-            columns: ["id", "user_id", "briefing_text", "end_at", "created_at"],
+            columns: ["id", "user_id", "title", "briefing_text", "end_at", "created_at"],
             defaultValues: {
                 id: () => uuid(),
                 created_at: () => moment()

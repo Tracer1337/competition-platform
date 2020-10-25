@@ -13,6 +13,8 @@ class User extends Model {
             },
             ...values
         })
+
+        this.data = null
     }
 
     async init() {
@@ -23,6 +25,10 @@ class User extends Model {
         }
     }
 
+    setData(data) {
+        this.data = data
+    }
+
     getColumns() {
         const values = super.getColumns()
         values.created_at = values.created_at.format()
@@ -30,11 +36,7 @@ class User extends Model {
     }
 
     toJSON() {
-        return {
-            id: this.id,
-            created_at: this.created_at,
-            is_admin: this.is_admin
-        }
+        return this.data
     }
 }
 

@@ -13,16 +13,17 @@ async function oauthDiscord(req, res) {
         if (!user) {
             user = new User({
                 id: userData.id,
-                username: userData.username,
-                avatar_id: userData.avatar
+                username: userData.username
             })
+
+            user.setData(data)
+
             await user.store()
         }
 
-        res.send({ token, user })
-    } catch (error) {
-        console.error(error)
-        res.send({})
+        res.render("oauth-receiver", { error: false, data: { token, user: userData } })
+    } catch {
+        res.render("oauth-receiver", { error: true })
     }
 }
 
