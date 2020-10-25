@@ -24,3 +24,6 @@
     * Benutzer können jederzeit einreichen
     * Benutzer mit spezifischen Level können eingereichte Projekte bewerten
     * Geschaffte Quest -> Levelaufstieg
+
+* Discord Bot
+    * Rollen -> ("Competition Level x")

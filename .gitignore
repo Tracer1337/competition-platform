@@ -3,8 +3,8 @@ node_modules/
 *.log
 package-lock.json
 
+.env
+
 temp/*
 
 bucket*/
-
-.env
