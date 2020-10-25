@@ -2,6 +2,7 @@ import React from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 
 import ProtectedRoute from "./ProtectedRoute.js"
+import NotFoundPage from "../pages/NotFoundPage.js"
 import IndexPage from "../pages/IndexPage.js"
 import LoginPage from "../pages/LoginPage.js"
 import ProfilePage from "../pages/ProfilePage.js"
@@ -28,7 +29,7 @@ function Router() {
                 </Route>
 
                 <Route path="*">
-                    404
+                    <NotFoundPage/>
                 </Route>
             </Switch>
         </BrowserRouter>

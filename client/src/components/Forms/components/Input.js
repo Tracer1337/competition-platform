@@ -5,11 +5,11 @@ import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
     input: {
-        marginTop: theme.spacing(2)
+        marginTop: theme.spacing(4)
     }
 }))
 
-function Input({ name, type, label, required = true, fullWidth = false }) {
+function Input({ name, type, label, width, required = true, fullWidth = false }) {
     const classes = useStyles()
 
     const { register, errors } = useFormContext()
@@ -26,6 +26,7 @@ function Input({ name, type, label, required = true, fullWidth = false }) {
             className={classes.input}
             error={hasError}
             helperText={hasError && errors[name].message}
+            style={{ width: width }}
         />
     )
 }
