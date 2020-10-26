@@ -21,28 +21,28 @@ function requestToken(code) {
             headers,
             body: new URLSearchParams(body) 
         })
-        .then(res => res.json())
-        .then(resolve)
-        .catch(reject)
+            .then(res => res.json())
+            .then(resolve)
+            .catch(reject)
     })
 }
 
-function getUser(token) {
+function getProfile(token) {
     return new Promise((resolve, reject) => {
         fetch(config.discord.api.basename + "/users/@me", {
             headers: {
                 "Authorization": "Bearer " + token
             }
         })
-        .then(res => {
-            if (res.status !== 200) {
-                reject()
-            }
+            .then(res => {
+                if (res.status !== 200) {
+                    return reject(res)
+                }
 
-            return res.json()
-        })
-        .then(resolve)
+                return res.json()
+            })
+            .then(resolve)
     })
 }
 
-module.exports = { requestToken, getUser }
+module.exports = { requestToken, getProfile }

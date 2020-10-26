@@ -7,16 +7,11 @@ async function oauthDiscord(req, res) {
 
         const { access_token: token } = data
 
-        const userData = await DiscordServiceProvider.getUser(token)
+        const userData = await DiscordServiceProvider.getProfile(token)
         let user = await User.findBy("id", userData.id)
 
         if (!user) {
-            user = new User({
-                id: userData.id,
-                username: userData.username
-            })
-
-            user.setData(data)
+            user = new User(userData)
 
             await user.store()
         }

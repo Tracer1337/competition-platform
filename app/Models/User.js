@@ -6,15 +6,13 @@ class User extends Model {
     constructor(values) {
         super({
             table: "users",
-            columns: ["id", "created_at", "is_admin"],
+            columns: ["id", "username", "discriminator", "avatar", "created_at", "is_admin"],
             defaultValues: {
                 id: () => uuid(),
                 created_at: () => moment()
             },
             ...values
         })
-
-        this.data = null
     }
 
     async init() {
@@ -25,10 +23,6 @@ class User extends Model {
         }
     }
 
-    setData(data) {
-        this.data = data
-    }
-
     getColumns() {
         const values = super.getColumns()
         values.created_at = values.created_at.format()
@@ -36,7 +30,13 @@ class User extends Model {
     }
 
     toJSON() {
-        return this.data
+        return {
+            id: this.id,
+            username: this.username,
+            discriminator: this.discriminator,
+            avatar: this.avatar,
+            created_at: this.created_at
+        }
     }
 }
 
