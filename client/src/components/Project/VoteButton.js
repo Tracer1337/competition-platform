@@ -49,11 +49,19 @@ function VoteButton({ project, extended }) {
         return null
     }
 
+    const isDisabled = !hasVoted && !project.canVote
+
     return (
         <Grid item>
             <Grid container alignItems="center">
                 { !extended ? (
-                    <IconButton onClick={handleClick} size={!extended ? "small" : undefined} color={hasVoted ? "primary" : undefined} className={classes.spacingRight}>
+                    <IconButton
+                        onClick={handleClick}
+                        size={!extended ? "small" : undefined}
+                        color={hasVoted ? "primary" : undefined}
+                        className={classes.spacingRight}
+                        disabled={isDisabled}
+                    >
                         <VoteIcon />
                     </IconButton>
                 ) : (
@@ -63,6 +71,7 @@ function VoteButton({ project, extended }) {
                         color={hasVoted ? "primary" : undefined}
                         variant="outlined"
                         className={classes.spacingRight}
+                        disabled={isDisabled}
                     >
                         Vote For {project.user.username}
                     </Button>
