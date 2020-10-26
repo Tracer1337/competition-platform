@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useForm, FormProvider } from "react-hook-form"
-import { InputLabel, Button } from "@material-ui/core"
+import { Paper, InputLabel, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import MDEditor from "@uiw/react-md-editor"
 import { DateTimePicker } from "@material-ui/pickers"
@@ -11,6 +11,10 @@ import LoadingButton from "./components/LoadingButton.js"
 import { createCompetition } from "../../config/api.js"
 
 const useStyles = makeStyles(theme => ({
+    formWrapper: {
+        padding: theme.spacing(2)
+    },
+
     spacing: {
         marginTop: theme.spacing(4)
     },
@@ -34,9 +38,7 @@ function CreateCompetitionForm() {
 
     const onSubmit = (values) => {
         values.briefing_text = briefingText
-        values.end_date = endDate
-
-        console.log(values)
+        values.end_at = endDate
 
         setIsLoading(true)
 
@@ -48,46 +50,53 @@ function CreateCompetitionForm() {
     }
 
     return (
-        <FormProvider {...formObject}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+            <Typography variant="h4" gutterBottom>Create Competition</Typography>
 
-                {/* Title */}
-                <Input
-                    name="title"
-                    label="Title"
-                    width="350px"
-                />
+            <Paper variant="outlined" className={classes.formWrapper}>
+                <FormProvider {...formObject}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
 
-                {/* Briefing */}
-                <div className={classes.spacing}>
-                    <InputLabel className={classes.label}>Briefing</InputLabel>
-                    
-                    <MDEditor value={briefingText} onChange={setBriefingText}/>
-                </div>
+                        {/* Title */}
+                        <Input
+                            name="title"
+                            label="Title"
+                            width="350px"
+                            hasSpacing={false}
+                        />
 
-                {/* End Date */}
-                <div className={classes.spacing}>
-                    <InputLabel className={classes.label}>End Date</InputLabel>
+                        {/* Briefing */}
+                        <div className={classes.spacing}>
+                            <InputLabel className={classes.label}>Briefing</InputLabel>
+                            
+                            <MDEditor value={briefingText} onChange={setBriefingText}/>
+                        </div>
 
-                    <DateTimePicker
-                        value={endDate}
-                        onChange={setEndDate}
-                        disablePast
-                        variant="inline"
-                        ampm={false}
-                    />
-                </div>
+                        {/* End Date */}
+                        <div className={classes.spacing}>
+                            <InputLabel className={classes.label}>End Date</InputLabel>
 
-                {/* Submit */}
-                <LoadingButton
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    isLoading={isLoading}
-                    className={classes.spacing}
-                >Create</LoadingButton>
-            </form>
-        </FormProvider>
+                            <DateTimePicker
+                                value={endDate}
+                                onChange={setEndDate}
+                                disablePast
+                                variant="inline"
+                                ampm={false}
+                            />
+                        </div>
+
+                        {/* Submit */}
+                        <LoadingButton
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            isLoading={isLoading}
+                            className={classes.spacing}
+                        >Create</LoadingButton>
+                    </form>
+                </FormProvider>
+            </Paper>
+        </div>
     )
 }
 

@@ -2,7 +2,20 @@ const Competition = require("../Models/Competition.js")
 
 async function getAll(req, res) {
     const models = await Competition.getAll()
+
+    models.sort((a, b) => b.created_at - a.created_at)
+
     res.send(models)
+}
+
+async function getOne(req, res) {
+    const model = await Competition.findBy("id", req.params.id)
+    
+    if (!model) {
+        return res.status(404).end()
+    }
+
+    res.send(model)
 }
 
 async function create(req, res) {
@@ -54,4 +67,4 @@ async function remove(req, res) {
     res.send(model)
 }
 
-module.exports = { getAll, create, update, remove }
+module.exports = { getAll, create, update, remove, getOne }

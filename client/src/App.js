@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { CssBaseline, CircularProgress } from "@material-ui/core"
+import { CssBaseline, CircularProgress, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Router from "./router/index.js"
@@ -37,10 +37,17 @@ function App() {
                 })
                 .finally(() => setIsLoading(false))
         }
+
+        // eslint-disable-next-line
     }, [])
 
     if (isLoading) {
-        return <CircularProgress/>
+        return (
+            <div>
+                <Typography>Logging in...</Typography>
+                <CircularProgress />
+            </div>
+        )
     }
 
     return (

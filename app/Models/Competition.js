@@ -31,6 +31,7 @@ class Competition extends Model {
         return {
             id: this.id,
             user: this.user,
+            title: this.title,
             briefing_text: this.briefing_text,
             end_at: this.end_at,
             created_at: this.created_at

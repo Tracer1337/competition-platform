@@ -22,7 +22,8 @@ const projectsUploadMiddleware = UploadMiddleware.fields([
 router.get("/auth/discord", AuthController.oauthDiscord)
 router.get("/auth/profile", ProtectMiddleware, AuthController.getProfile)
 
-router.get("/competitions", ProtectMiddleware, CompetitionController.getAll)
+router.get("/competitions", CompetitionController.getAll)
+router.get("/competitions/:id", CompetitionController.getOne)
 router.post("/competitions", ProtectMiddleware, new Validator().text("title"), CompetitionController.create)
 router.post("/competitions/:id", ProtectMiddleware, CompetitionController.update)
 router.delete("/competitions/:id", ProtectMiddleware, CompetitionController.remove)

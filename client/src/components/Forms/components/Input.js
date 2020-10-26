@@ -5,12 +5,12 @@ import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
     input: {
-        marginTop: theme.spacing(4)
+        marginTop: props => props.hasSpacing && theme.spacing(4)
     }
 }))
 
-function Input({ name, type, label, width, required = true, fullWidth = false }) {
-    const classes = useStyles()
+function Input({ name, type, label, width, required = true, fullWidth = false, hasSpacing = true }) {
+    const classes = useStyles({ hasSpacing })
 
     const { register, errors } = useFormContext()
 

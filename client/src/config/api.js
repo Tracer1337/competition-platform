@@ -1,7 +1,9 @@
 import axios from "axios"
 
 import format, {
-    TYPE
+    COMPETITION,
+    COMPETITIONS,
+    USER
 } from "./formatAPI.js"
 import { API_BASE_URL } from "./constants.js"
 
@@ -15,9 +17,10 @@ function url(path) {
     return API_BASE_URL + path
 }
 
-export const getProfile = () => axios.get(url("/auth/profile"))
+export const getProfile = () => axios.get(url("/auth/profile")).then(format(USER))
 
-export const getAllCompetitions = () => axios.get(url("/competitions"))
+export const getAllCompetitions = () => axios.get(url("/competitions")).then(format(COMPETITIONS))
+export const getCompetition = (id) => axios.get(url("/competitions/" + id)).then(format(COMPETITION))
 export const createCompetition = (body) => axios.post(url("/competitions"), body)
 export const editCompetition = (id, body) => axios.post(url("/competitions/" + id), body)
 export const deleteCompetition = (id) => axios.delete(url("/competitions/" + id))
