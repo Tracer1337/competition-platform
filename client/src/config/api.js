@@ -3,7 +3,8 @@ import axios from "axios"
 import format, {
     COMPETITION,
     COMPETITIONS,
-    USER
+    USER,
+    PROJECTS
 } from "./formatAPI.js"
 import { API_BASE_URL } from "./constants.js"
 
@@ -24,6 +25,7 @@ export const getCompetition = (id) => axios.get(url("/competitions/" + id)).then
 export const createCompetition = (body) => axios.post(url("/competitions"), body)
 export const editCompetition = (id, body) => axios.post(url("/competitions/" + id), body)
 export const deleteCompetition = (id) => axios.delete(url("/competitions/" + id))
+export const getSubmissions = (id) => axios.get(url(`/competitions/${id}/submissions`)).then(format(PROJECTS))
 
 export const getAllProjects = () => axios.get(url("/projects"))
 export const createProject = (formData) => axios.post(url("/projects"), formData)
@@ -31,3 +33,5 @@ export const editProject = (id, body) => axios.post(url("/projects/" + id), body
 export const deleteProject = (id) => axios.delete(url("/projects/" + id))
 export const voteForProject = (id) => axios.post(url("/projects/vote/" + id))
 export const removeVoteFromProject = (id) => axios.post(url("/projects/vote/" + id))
+
+export const getFileFromStorage = (filename) => axios.get(url("/storage/" + filename), { responseType: "blob" })

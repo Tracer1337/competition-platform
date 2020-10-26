@@ -1,4 +1,5 @@
 const Competition = require("../Models/Competition.js")
+const Project = require("../Models/Project.js")
 
 async function getAll(req, res) {
     const models = await Competition.getAll()
@@ -16,6 +17,11 @@ async function getOne(req, res) {
     }
 
     res.send(model)
+}
+
+async function getSubmissions(req, res) {
+    const models = await Project.findAllBy("competition_id", req.params.id)
+    return res.send(models)
 }
 
 async function create(req, res) {
@@ -67,4 +73,4 @@ async function remove(req, res) {
     res.send(model)
 }
 
-module.exports = { getAll, create, update, remove, getOne }
+module.exports = { getAll, create, update, remove, getOne, getSubmissions }

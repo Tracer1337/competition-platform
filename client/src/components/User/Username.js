@@ -1,26 +1,23 @@
 import React from "react"
-import clsx from "clsx"
 import { useHistory } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { Avatar as MuiAvatar } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
-import { getAvatarURL } from "../../utils/discord.js"
-
 const useStyles = makeStyles(theme => ({
-    avatar: {
-        cursor: "pointer",
-        width: props => props.size,
-        height: props => props.size
+    username: {
+        cursor: props => !props.notClickable && "pointer"
+    },
+
+    secondary: {
+        color: theme.palette.text.secondary
     }
 }))
 
-function Avatar({ user, size, className }) {
-    const classes = useStyles({ size })
+function Username({ user, notClickable = false }) {
+    const classes = useStyles({ notClickable })
 
     const history = useHistory()
 
-    const isLoggedIn = useSelector(store => store.auth.isLoggedIn)
     const authUser = useSelector(store => store.auth.user)
 
     if (!user) {
@@ -28,6 +25,10 @@ function Avatar({ user, size, className }) {
     }
 
     const handleClick = () => {
+        if (notClickable) {
+            return
+        }
+
         if (!user || user.id === authUser.id) {
             history.push("/profile")
         } else {
@@ -36,8 +37,14 @@ function Avatar({ user, size, className }) {
     }
 
     return (
-        <MuiAvatar className={clsx(className, classes.avatar)} onClick={handleClick} src={isLoggedIn ? getAvatarURL(user) : null} />
+        <span onClick={handleClick} className={classes.username}>
+            { user.username }
+
+            <span className={classes.secondary}>
+                #{ user.discriminator }
+            </span>
+        </span>
     )
 }
 
-export default Avatar
+export default Username

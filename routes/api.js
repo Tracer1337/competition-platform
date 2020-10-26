@@ -24,6 +24,7 @@ router.get("/auth/profile", ProtectMiddleware, AuthController.getProfile)
 
 router.get("/competitions", CompetitionController.getAll)
 router.get("/competitions/:id", CompetitionController.getOne)
+router.get("/competitions/:id/submissions", ProtectMiddleware, CompetitionController.getSubmissions)
 router.post("/competitions", ProtectMiddleware, new Validator().text("title"), CompetitionController.create)
 router.post("/competitions/:id", ProtectMiddleware, CompetitionController.update)
 router.delete("/competitions/:id", ProtectMiddleware, CompetitionController.remove)

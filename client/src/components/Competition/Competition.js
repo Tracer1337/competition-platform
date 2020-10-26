@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     },
 
     endAt: {
-        opacity: .87
+        color: theme.palette.text.secondary
     },
 
     divider: {
