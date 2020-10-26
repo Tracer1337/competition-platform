@@ -1,10 +1,15 @@
 import moment from "moment"
-import { DISCORD_CDN_BASE_URL } from "./constants.js"
+import { DISCORD_CDN_BASE_URL, API_BASE_URL } from "./constants.js"
 
 export const COMPETITION = "COMPETITION"
 export const COMPETITIONS = "COMPETITIONS"
 export const USER = "USER"
+export const PROJECT = "PROJECT"
 export const PROJECTS = "PROJECTS"
+
+function getFileURL(filename) {
+    return API_BASE_URL + "/storage/" + filename
+}
 
 function formatCompetition(data) {
     formatUser(data.user)
@@ -25,7 +30,14 @@ function formatProject(data) {
     formatUser(data.user)
     formatCompetition(data.competition)
 
+    data.images.map(formatImage)
+
     data.created_at = moment(data.created_at)
+    data.file_url = getFileURL(data.filename)
+}
+
+function formatImage(data) {
+    data.url = getFileURL(data.filename)
 }
 
 export default function format(type) {
@@ -37,6 +49,8 @@ export default function format(type) {
         fn = data => data.data.map(formatCompetition)
     } else if (type === USER) {
         fn = data => formatUser(data.data)
+    } else if (type === PROJECT) {
+        fn = data => formatProject(data.data)
     } else if (type === PROJECTS) {
         fn = data => data.data.map(formatProject)
     }

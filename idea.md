@@ -12,6 +12,7 @@
             * eine Datei anhängen
             * einen Text dazu schreiben
             * Bilder anhängen
+            * Einen Link "Go to project" hinzufügen
 
     * Jeder Benutzer kann für 1 (oder 2, 3) Projekte abstimmen
     

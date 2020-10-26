@@ -3,8 +3,6 @@ import clsx from "clsx"
 import { Dialog } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
-import AuthImage from "../AuthImage.js"
-
 const useStyles = makeStyles(theme => ({
     image: {
         cursor: "pointer",
@@ -22,20 +20,20 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-function Image({ className, filename }) {
+function Image({ className, data }) {
     const classes = useStyles()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
     return (
         <>
-            <AuthImage filename={filename} className={clsx(className, classes.image)} onClick={() => setIsDialogOpen(true)}/>
+            <img src={data.url} alt="" className={clsx(className, classes.image)} onClick={() => setIsDialogOpen(true)}/>
 
             <Dialog
                 open={isDialogOpen}
                 onClose={() => setIsDialogOpen(false)}
             >
-                <AuthImage filename={filename} className={classes.dialogImage}/>
+                <img src={data.url} alt="" className={classes.dialogImage}/>
             </Dialog>
         </>
     )

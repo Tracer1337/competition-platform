@@ -16,7 +16,17 @@ async function deleteImages(req) {
 async function getAll(req, res) {
     const models = await Project.findAllBy("user_id", req.user.id)
     res.send(models)
-} 
+}
+
+async function getOne(req, res) {
+    const model = await Project.findBy("id", req.params.id)
+
+    if (!model) {
+        return res.status(404).end()
+    }
+
+    res.send(model)
+}
 
 async function create(req, res) {
     const competition = await Competition.findBy("id", req.body.competition_id)
@@ -165,4 +175,4 @@ async function deleteVote(req, res) {
     res.end()
 }
 
-module.exports = { getAll, create, update, remove, vote, deleteVote }
+module.exports = { getAll, getOne, create, update, remove, vote, deleteVote }

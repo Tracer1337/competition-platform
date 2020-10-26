@@ -51,11 +51,11 @@ function App() {
     }
 
     return (
-        <div>
+        <>
             <CssBaseline/>
 
             <Router/>
-        </div>
+        </>
     )
 }
 

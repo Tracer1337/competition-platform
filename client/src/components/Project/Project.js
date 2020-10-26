@@ -45,7 +45,7 @@ function Project({ className, data }) {
             <Grid container className={classes.spacingBottom}>
                 { data.images.map(image => (
                     <Grid item key={image.id}>
-                        <Image filename={image.filename} className={classes.image}/>
+                        <Image data={image} className={classes.image}/>
                     </Grid>
                 )) }
             </Grid>

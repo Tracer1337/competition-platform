@@ -7,3 +7,7 @@ export function createListeners(target, events) {
         target.removeEventListener(name, fn, false)
     })
 }
+
+export function getFileExtension(filename) {
+    return filename.match(/\.[0-9a-z]+$/i)[0]
+}

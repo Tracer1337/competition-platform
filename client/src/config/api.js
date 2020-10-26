@@ -4,6 +4,7 @@ import format, {
     COMPETITION,
     COMPETITIONS,
     USER,
+    PROJECT,
     PROJECTS
 } from "./formatAPI.js"
 import { API_BASE_URL } from "./constants.js"
@@ -27,7 +28,8 @@ export const editCompetition = (id, body) => axios.post(url("/competitions/" + i
 export const deleteCompetition = (id) => axios.delete(url("/competitions/" + id))
 export const getSubmissions = (id) => axios.get(url(`/competitions/${id}/submissions`)).then(format(PROJECTS))
 
-export const getAllProjects = () => axios.get(url("/projects"))
+export const getAllProjects = () => axios.get(url("/projects")).then(format(PROJECTS))
+export const getProject = (id) => axios.get(url("/projects/" + id)).then(format(PROJECT))
 export const createProject = (formData) => axios.post(url("/projects"), formData)
 export const editProject = (id, body) => axios.post(url("/projects/" + id), body)
 export const deleteProject = (id) => axios.delete(url("/projects/" + id))

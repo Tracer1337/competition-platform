@@ -8,6 +8,7 @@ import LoginPage from "../pages/LoginPage.js"
 import ProfilePage from "../pages/ProfilePage.js"
 import CreateCompetitionPage from "../pages/CreateCompetitionPage.js"
 import CompetitionPage from "../pages/CompetitionPage.js"
+import ProjectPage from "../pages/ProjectPage.js"
 import CreateProjectPage from "../pages/CreateProjectPage.js"
 
 function Router() {
@@ -28,6 +29,10 @@ function Router() {
                 
                 <Route path="/competition/:id/submit">
                     <CreateProjectPage/>
+                </Route>
+
+                <Route path="/project/:id">
+                    <ProjectPage/>
                 </Route>
 
                 <Route path="/competition/:id">

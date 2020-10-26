@@ -81,7 +81,7 @@ function CompetitionPage() {
 
                     { isLoggedIn && (
                         <Link to={`/competition/${id}/submit`}>
-                            <Button variant="contained" className={classes.spacingBottom}>Submit A Project</Button>
+                            <Button variant="contained" color="primary" className={classes.spacingBottom}>Submit A Project</Button>
                         </Link>
                     ) }
 

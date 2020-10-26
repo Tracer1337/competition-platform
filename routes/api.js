@@ -30,6 +30,7 @@ router.post("/competitions/:id", ProtectMiddleware, CompetitionController.update
 router.delete("/competitions/:id", ProtectMiddleware, CompetitionController.remove)
 
 router.get("/projects", ProjectController.getAll)
+router.get("/projects/:id", ProjectController.getOne)
 router.post("/projects", ProtectMiddleware, projectsUploadMiddleware, ProjectController.create)
 router.post("/projects/:id", ProtectMiddleware, projectsUploadMiddleware, ProjectController.update)
 router.delete("/projects/:id", ProtectMiddleware, ProjectController.remove)
