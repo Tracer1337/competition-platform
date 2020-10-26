@@ -62,7 +62,7 @@ function CreateCompetitionForm() {
                             name="title"
                             label="Title"
                             width="350px"
-                            hasSpacing={false}
+                            spacing={false}
                         />
 
                         {/* Briefing */}
@@ -93,6 +93,7 @@ function CreateCompetitionForm() {
                             isLoading={isLoading}
                             className={classes.spacing}
                         >Create</LoadingButton>
+                        
                     </form>
                 </FormProvider>
             </Paper>

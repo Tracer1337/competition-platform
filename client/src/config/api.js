@@ -26,8 +26,8 @@ export const editCompetition = (id, body) => axios.post(url("/competitions/" + i
 export const deleteCompetition = (id) => axios.delete(url("/competitions/" + id))
 
 export const getAllProjects = () => axios.get(url("/projects"))
-export const createProject = (body) => axios.post(url("/projects"), body)
+export const createProject = (formData) => axios.post(url("/projects"), formData)
 export const editProject = (id, body) => axios.post(url("/projects/" + id), body)
 export const deleteProject = (id) => axios.delete(url("/projects/" + id))
 export const voteForProject = (id) => axios.post(url("/projects/vote/" + id))
-export const removeVoteFromProject = (id) => axios.post(url("/projects/vote" + id))
+export const removeVoteFromProject = (id) => axios.post(url("/projects/vote/" + id))
