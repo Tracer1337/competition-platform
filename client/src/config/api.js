@@ -18,7 +18,7 @@ function url(path) {
     return API_BASE_URL + path
 }
 
-export const getProfile = () => axios.get(url("/auth/profile")).then(format(USER))
+export const getProfile = () => axios.get(url("/auth/profile")).then(format(USER)).then(format(USER))
 
 export const getAllCompetitions = () => axios.get(url("/competitions")).then(format(COMPETITIONS))
 export const getCompetition = (id) => axios.get(url("/competitions/" + id)).then(format(COMPETITION))

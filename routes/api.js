@@ -24,18 +24,18 @@ router.get("/auth/profile", ProtectMiddleware, AuthController.getProfile)
 
 router.get("/competitions", CompetitionController.getAll)
 router.get("/competitions/:id", CompetitionController.getOne)
-router.get("/competitions/:id/submissions", ProtectMiddleware, CompetitionController.getSubmissions)
+router.get("/competitions/:id/submissions", CompetitionController.getSubmissions)
 router.post("/competitions", ProtectMiddleware, new Validator().text("title"), CompetitionController.create)
 router.post("/competitions/:id", ProtectMiddleware, CompetitionController.update)
 router.delete("/competitions/:id", ProtectMiddleware, CompetitionController.remove)
 
-router.get("/projects", ProtectMiddleware, ProjectController.getAll)
+router.get("/projects", ProjectController.getAll)
 router.post("/projects", ProtectMiddleware, projectsUploadMiddleware, ProjectController.create)
 router.post("/projects/:id", ProtectMiddleware, projectsUploadMiddleware, ProjectController.update)
 router.delete("/projects/:id", ProtectMiddleware, ProjectController.remove)
 router.post("/projects/vote/:id", ProtectMiddleware, ProjectController.vote)
 router.delete("/projects/vote/:id", ProtectMiddleware, ProjectController.deleteVote)
 
-router.get("/storage/:filename", ProtectMiddleware, StorageController.getFile)
+router.get("/storage/:filename", StorageController.getFile)
 
 module.exports = router
