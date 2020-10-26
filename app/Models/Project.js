@@ -2,10 +2,11 @@ const { v4: uuid } = require("uuid")
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
 const User = require("../Models/User.js")
-const Competition = require("./Competition.js")
 const Image = require("./Image.js")
 const Vote = require("./Vote.js")
 const StorageFacade = require("../Facades/StorageFacade.js")
+
+let Competition
 
 class Project extends Model {
     constructor(values) {
@@ -18,6 +19,10 @@ class Project extends Model {
             },
             ...values
         })
+
+        this.hasVoted = null
+
+        Competition = require("./Competition.js")
     }
 
     async init() {
@@ -26,6 +31,11 @@ class Project extends Model {
         this.competition = await Competition.findBy("id", this.competition_id)
         this.images = await Image.findAllBy("project_id", this.id)
         this.votes = (await Vote.findAllBy("project_id", this.id)).length
+    }
+
+    async setHasVoted(user) {
+        const vote = await Vote.where(`project_id = '${this.id}' AND user_id = '${user.id}'`)
+        this.hasVoted = !!vote[0]
     }
 
     getColumns() {
@@ -51,6 +61,7 @@ class Project extends Model {
             competition: this.competition,
             images: this.images,
             votes: this.votes,
+            hasVoted: this.hasVoted,
             description: this.description,
             filename: this.filename,
             created_at: this.created_at

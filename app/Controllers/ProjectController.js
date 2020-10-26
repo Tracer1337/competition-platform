@@ -25,6 +25,10 @@ async function getOne(req, res) {
         return res.status(404).end()
     }
 
+    if (req.user) {
+        await model.setHasVoted(req.user)
+    }
+
     res.send(model)
 }
 

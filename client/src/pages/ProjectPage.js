@@ -8,6 +8,7 @@ import MDEditor from "@uiw/react-md-editor"
 import Layout from "../components/Layout/Layout.js"
 import Avatar from "../components/User/Avatar.js"
 import Username from "../components/User/Username.js"
+import VoteButton from "../components/Project/VoteButton.js"
 import useAPIData from "../utils/useAPIData.js"
 import { getFileExtension } from "../utils"
 
@@ -73,10 +74,16 @@ function ProjectPage() {
                         </Grid>
                     </Grid>
                     
-                    <Grid className={classes.competition} container justify="flex-end">
-                        <Link to={"/competition/" + data.competition.id}>
-                            <Button variant="outlined">{ data.competition.title }</Button>
-                        </Link>
+                    <Grid className={classes.competition} container>
+                        <Grid item xs>
+                            <VoteButton project={data} extended/>
+                        </Grid>
+
+                        <Grid item xs container justify="flex-end">
+                            <Link to={"/competition/" + data.competition.id}>
+                                <Button variant="outlined">{ data.competition.title }</Button>
+                            </Link>
+                        </Grid>
                     </Grid>
 
                     <Divider className={classes.divider}/>

@@ -29,7 +29,11 @@ function Submissions({ competitionId }) {
     }
 
     return data.map(project => (
-        <Project data={project} className={classes.submission} key={project.id}/>
+        <Project
+            key={project.id}
+            data={project}
+            className={classes.submission}
+        />
     ))
 }
 

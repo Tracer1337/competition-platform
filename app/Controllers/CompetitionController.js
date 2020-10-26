@@ -16,11 +16,20 @@ async function getOne(req, res) {
         return res.status(404).end()
     }
 
+    if (req.user) {
+        await model.setHasSubmitted(req.user)
+    }
+
     res.send(model)
 }
 
 async function getSubmissions(req, res) {
     const models = await Project.findAllBy("competition_id", req.params.id)
+
+    if (req.user) {
+        await models.mapAsync(model => model.setHasVoted(req.user))
+    }
+
     return res.send(models)
 }
 

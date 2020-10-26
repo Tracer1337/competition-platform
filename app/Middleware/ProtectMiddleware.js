@@ -1,6 +1,19 @@
 const DiscordServiceProvider = require("../Services/DiscordServiceProvider.js")
 const User = require("../Models/User.js")
 
+async function getUser(req) {
+    if (!req.header("Authorization")) {
+        return
+    }
+    
+    const token = req.header("Authorization").split(" ")[1]
+
+    const data = await DiscordServiceProvider.getProfile(token)
+    const user = await User.findBy("id", data.id)
+
+    return user
+}
+
 /**
  * Convert the given token to a user object
  */
@@ -9,11 +22,8 @@ async function ProtectMiddleware(req, res, next) {
         return res.sendStatus(401)
     }
 
-    const token = req.header("Authorization").split(" ")[1]
-
     try {
-        const data = await DiscordServiceProvider.getProfile(token)
-        const user = await User.findBy("id", data.id)
+        const user = await getUser(req)
     
         if (!user) {
             throw new Error()
@@ -37,6 +47,18 @@ function Admin(req, res, next) {
     })
 }
 
-Object.assign(ProtectMiddleware, { Admin })
+async function NotRequired(req, res, next) {
+    try {
+        const user = await getUser(req)
+
+        if (user) {
+            req.user = user
+        }
+    } catch { } finally {
+        next()
+    }
+}
+
+Object.assign(ProtectMiddleware, { Admin, NotRequired })
 
 module.exports = ProtectMiddleware 

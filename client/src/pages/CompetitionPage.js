@@ -79,7 +79,7 @@ function CompetitionPage() {
 
                     <Divider className={classes.divider}/>
 
-                    { isLoggedIn && (
+                    { isLoggedIn && !data.hasSubmitted && (
                         <Link to={`/competition/${id}/submit`}>
                             <Button variant="contained" color="primary" className={classes.spacingBottom}>Submit A Project</Button>
                         </Link>

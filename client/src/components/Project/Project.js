@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import Avatar from "../User/Avatar.js"
 import Username from "../User/Username.js"
 import Image from "./Image.js"
+import VoteButton from "./VoteButton.js"
 
 const useStyles = makeStyles(theme => ({
     project: {
@@ -29,6 +30,10 @@ const useStyles = makeStyles(theme => ({
     image: {
         height: 100,
         marginRight: theme.spacing(1),
+    },
+
+    viewButton: {
+        marginRight: theme.spacing(2)
     }
 }))
 
@@ -50,11 +55,15 @@ function Project({ className, data }) {
                 )) }
             </Grid>
 
-            <Link to={"/project/" + data.id}>
-                <Button variant="outlined">
-                    View Project
-                </Button>
-            </Link>
+            <Grid container>
+                <Link to={"/project/" + data.id}>
+                    <Button variant="outlined" className={classes.viewButton}>
+                        View Project
+                    </Button>
+                </Link>
+
+                <VoteButton project={data} />
+            </Grid>
         </Paper>
     )
 }
