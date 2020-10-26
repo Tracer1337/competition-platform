@@ -1,29 +1,69 @@
 import React, { useState } from "react"
+import clsx from "clsx"
 import { useHistory } from "react-router-dom"
 import { useForm, FormProvider } from "react-hook-form"
-import { Paper, InputLabel, Typography } from "@material-ui/core"
+import { Paper, InputLabel, Typography, IconButton, Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import MDEditor from "@uiw/react-md-editor"
+import DeleteIcon from "@material-ui/icons/Delete"
 
 import FileInput from "./components/FileInput.js"
 import MultiFileInput from "./components/MultiFileInput.js"
 import LoadingButton from "./components/LoadingButton.js"
+import { deleteImage } from "../../config/api.js"
 
 const useStyles = makeStyles(theme => ({
     formWrapper: {
         padding: theme.spacing(2)
     },
 
-    spacing: {
+    spacingTop: {
         marginTop: theme.spacing(4)
     },
 
-    label: {
+    spacingBottom: {
         marginBottom: theme.spacing(2)
+    },
+    
+    spacingRight: {
+        marginRight: theme.spacing(2)
+    },
+
+    imageWrapper: {
+        padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`
+    },
+
+    image: {
+        height: 100
     }
 }))
 
-function ProjectForm({ apiMethod, isEditMode, data, competitionId }) {
+function Image({ data, onReload }) {
+    const classes = useStyles()
+
+    const handleClick = () => {
+        deleteImage(data.id)
+            .then(() => onReload())
+    }
+
+    return (
+        <Paper className={clsx(classes.spacingBottom, classes.imageWrapper)}>
+            <Grid container alignItems="center">
+                <Grid item className={classes.spacingRight}>
+                    <IconButton onClick={handleClick}>
+                        <DeleteIcon/>
+                    </IconButton>
+                </Grid>
+
+                <Grid item>
+                    <img src={data.url} className={classes.image} alt=""/>
+                </Grid>
+            </Grid>
+        </Paper>
+    )
+}
+
+function ProjectForm({ apiMethod, isEditMode, data, competitionId, onReload = () => {} }) {
     const classes = useStyles()
 
     const history = useHistory()
@@ -76,8 +116,8 @@ function ProjectForm({ apiMethod, isEditMode, data, competitionId }) {
                         />
 
                         {/* Description */}
-                        <div className={classes.spacing}>
-                            <InputLabel className={classes.label}>Description</InputLabel>
+                        <div className={classes.spacingTop}>
+                            <InputLabel className={classes.spacingBottom}>Description</InputLabel>
 
                             <MDEditor value={descText} onChange={setDescText} />
                         </div>
@@ -87,8 +127,16 @@ function ProjectForm({ apiMethod, isEditMode, data, competitionId }) {
                             name="images"
                             label="Images"
                             buttonLabel="Upload Image"
-                            maxFiles={5}
+                            maxFiles={5 - (data?.images.length || 0)}
                         />
+
+                        { isEditMode && (
+                            <div>
+                                { data.images.map(image => (
+                                    <Image data={image} key={image.id} onReload={onReload}/>
+                                )) }
+                            </div>
+                        ) }
 
                         {/* Submit */}
                         <LoadingButton
@@ -96,7 +144,7 @@ function ProjectForm({ apiMethod, isEditMode, data, competitionId }) {
                             variant="contained"
                             color="primary"
                             isLoading={isLoading}
-                            className={classes.spacing}
+                            className={classes.spacingTop}
                         >{ isEditMode ? "Save" : "Submit" }</LoadingButton>
 
                     </form>

@@ -8,6 +8,7 @@ const StorageFacade = require("../Facades/StorageFacade.js")
 const FileServiceProvider = require("../Services/FileServiceProvider.js")
 const CompetitionServiceProvider = require("../Services/CompetitionServiceProvider.js")
 const config = require("../../config")
+const { resolveNs } = require("dns")
 
 async function deleteImages(req) {
     await Promise.all(Object.values(req.files).flat().map(image => fs.promises.unlink(image.path)))
@@ -153,6 +154,22 @@ async function remove(req, res) {
     res.send(model)
 }
 
+async function removeImage(req, res) {
+    const model = await Image.findBy("id", req.params.id)
+
+    if (!model) {
+        return res.status(404).end()
+    }
+
+    if (model.user_id !== req.user.id) {
+        return res.status(403).end()
+    }
+
+    await model.delete()
+
+    res.send(model)
+}
+
 async function vote(req, res) {
     const project = await Project.findBy("id", req.params.id)
 
@@ -182,4 +199,4 @@ async function deleteVote(req, res) {
     res.end()
 }
 
-module.exports = { getAll, getOne, create, update, remove, vote, deleteVote }
+module.exports = { getAll, getOne, create, update, remove, removeImage, vote, deleteVote }

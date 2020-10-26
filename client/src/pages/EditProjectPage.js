@@ -10,7 +10,7 @@ import { editProject } from "../config/api.js"
 function EditProjectPage() {
     const { id } = useParams()
 
-    const { isLoading, data } = useAPIData({
+    const { isLoading, data, reload } = useAPIData({
         method: "getProject",
         data: id,
         useCache: false
@@ -26,7 +26,13 @@ function EditProjectPage() {
 
     return (
         <Layout>
-            <ProjectForm isEditMode data={data} competitionId={data.competition.id} apiMethod={editProject.bind(null, id)} />
+            <ProjectForm
+                isEditMode
+                data={data}
+                competitionId={data.competition.id}
+                apiMethod={editProject.bind(null, id)}
+                onReload={reload}
+            />
         </Layout>
     )
 }

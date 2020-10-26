@@ -34,7 +34,7 @@ function MultiFileInput({ name, label, buttonLabel, maxFiles, required = true, s
 
     const idCounter = useRef(0)
     
-    const [inputIds, setInputIds] = useState([idCounter.current++])
+    const [inputIds, setInputIds] = useState(maxFiles > 0 ? [idCounter.current++] : [])
 
     const handleAddInput = () => {
         setInputIds([...inputIds, idCounter.current++])
@@ -59,7 +59,7 @@ function MultiFileInput({ name, label, buttonLabel, maxFiles, required = true, s
 
     return (
         <div className={classes.fileInputWrapper}>
-            <InputLabel className={classes.label}>{ label }{ maxFiles && ` (Max. ${maxFiles})` }</InputLabel>
+            <InputLabel className={classes.label}>{ label }{ !isNaN(maxFiles) && ` (Max. ${maxFiles})` }</InputLabel>
 
             <FormProvider {...localForm}>
                 { inputIds.map(id => (
