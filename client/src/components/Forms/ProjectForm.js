@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useParams, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { useForm, FormProvider } from "react-hook-form"
 import { Paper, InputLabel, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
@@ -8,7 +8,6 @@ import MDEditor from "@uiw/react-md-editor"
 import FileInput from "./components/FileInput.js"
 import MultiFileInput from "./components/MultiFileInput.js"
 import LoadingButton from "./components/LoadingButton.js"
-import { createProject } from "../../config/api.js"
 
 const useStyles = makeStyles(theme => ({
     formWrapper: {
@@ -24,17 +23,17 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-function CreateProjectForm() {
+function ProjectForm({ apiMethod, isEditMode, data, competitionId }) {
     const classes = useStyles()
-
-    const { id } = useParams()
 
     const history = useHistory()
 
-    const [descText, setDescText] = useState("")
+    const [descText, setDescText] = useState(data?.description || "")
     const [isLoading, setIsLoading] = useState(false)
 
-    const formObject = useForm()
+    const formObject = useForm({
+        defaultValues: data
+    })
     const { handleSubmit } = formObject
 
     const onSubmit = (values) => {
@@ -44,7 +43,7 @@ function CreateProjectForm() {
 
         formData.append("file", values.file)
         formData.append("description", values.description)
-        formData.append("competition_id", id)
+        formData.append("competition_id", competitionId)
         
         for (let image of values.images) {
             formData.append("images", image)
@@ -52,16 +51,16 @@ function CreateProjectForm() {
 
         setIsLoading(true)
 
-        createProject(formData)
+        apiMethod(formData)
             .then(() => {
-                history.push("/competition/" + id)
+                history.push("/competition/" + competitionId)
             })
             .finally(() => setIsLoading(false))
     }
 
     return (
         <div>
-            <Typography variant="h4" gutterBottom>Submit Project</Typography>
+            <Typography variant="h4" gutterBottom>{ isEditMode ? "Edit" : "Submit" } Project</Typography>
 
             <Paper variant="outlined" className={classes.formWrapper}>
                 <FormProvider {...formObject}>
@@ -71,8 +70,9 @@ function CreateProjectForm() {
                         <FileInput
                             name="file"
                             label="Project File"
-                            buttonLabel="Upload File"
+                            buttonLabel={isEditMode ? "Upload New File" : "Upload File"}
                             spacing={false}
+                            required={!isEditMode}
                         />
 
                         {/* Description */}
@@ -97,7 +97,7 @@ function CreateProjectForm() {
                             color="primary"
                             isLoading={isLoading}
                             className={classes.spacing}
-                        >Submit</LoadingButton>
+                        >{ isEditMode ? "Save" : "Submit" }</LoadingButton>
 
                     </form>
                 </FormProvider>
@@ -106,4 +106,4 @@ function CreateProjectForm() {
     )
 }
 
-export default CreateProjectForm
+export default ProjectForm

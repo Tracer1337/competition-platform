@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core"
 import { createListeners } from "../../utils"
 import { DISCORD_OAUTH_URL } from "../../config/constants.js"
 import { login } from "../../store/actions.js"
+import formatAPI, { USER } from "../../config/formatAPI.js"
 
 function LoginWithDiscord({ onSuccess }) {
     const dispatch = useDispatch()
@@ -23,10 +24,11 @@ function LoginWithDiscord({ onSuccess }) {
 
     useEffect(() => {
         const handleMessage = (event) => {
-            if (event.data?.source === "oauth") {
+            if (event.data?.source === "oauth" && popup.current) {
                 popup.current.close()
                 
                 if (event.data.status === "ok") {
+                    formatAPI(USER)({ data: event.data.payload.user })
                     dispatch(login(event.data.payload))
                     onSuccess()
                 }

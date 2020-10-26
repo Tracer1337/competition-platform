@@ -1,4 +1,5 @@
 import React from "react"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { useParams, Redirect } from "react-router-dom"
 import { CircularProgress, Typography, Divider, Grid, Button } from "@material-ui/core"
@@ -21,6 +22,10 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(2)
     },
 
+    spacingBottom: {
+        marginBottom: theme.spacing(4)
+    },
+
     divider: {
         margin: `${theme.spacing(4)}px 0`
     },
@@ -37,6 +42,9 @@ function ProjectPage() {
     const { id } = useParams()
 
     const classes = useStyles()
+
+    const isLoggedIn = useSelector(store => store.auth.isLoggedIn)
+    const user = useSelector(store => store.auth.user)
 
     const { isLoading, data, error } = useAPIData({
         method: "getProject",
@@ -56,6 +64,14 @@ function ProjectPage() {
         <Layout>
             { isLoading ? <CircularProgress /> : (
                 <>
+                    { isLoggedIn && data.user.id === user.id && (
+                        <Grid container justify="flex-end">
+                            <Link to={"/edit-project/" + id}>
+                                <Button variant="contained" className={classes.spacingBottom}>Edit Project</Button>
+                            </Link>
+                        </Grid>
+                    ) }
+
                     <Grid container>
                         <Grid item xs container alignItems="center">
                             <Avatar user={data.user} className={classes.avatar}/>
@@ -81,7 +97,7 @@ function ProjectPage() {
 
                         <Grid item xs container justify="flex-end">
                             <Link to={"/competition/" + data.competition.id}>
-                                <Button variant="outlined">{ data.competition.title }</Button>
+                                <Button variant="outlined">View Competition</Button>
                             </Link>
                         </Grid>
                     </Grid>

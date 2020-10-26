@@ -6,10 +6,12 @@ import NotFoundPage from "../pages/NotFoundPage.js"
 import IndexPage from "../pages/IndexPage.js"
 import LoginPage from "../pages/LoginPage.js"
 import ProfilePage from "../pages/ProfilePage.js"
-import CreateCompetitionPage from "../pages/CreateCompetitionPage.js"
 import CompetitionPage from "../pages/CompetitionPage.js"
 import ProjectPage from "../pages/ProjectPage.js"
+import CreateCompetitionPage from "../pages/CreateCompetitionPage.js"
+import EditCompetitionPage from "../pages/EditCompetitionPage.js"
 import CreateProjectPage from "../pages/CreateProjectPage.js"
+import EditProjectPage from "../pages/EditProjectPage.js"
 
 function Router() {
     return (
@@ -26,10 +28,18 @@ function Router() {
                 <ProtectedRoute path="/create-competition">
                     <CreateCompetitionPage/>
                 </ProtectedRoute>
-                
-                <Route path="/competition/:id/submit">
+
+                <ProtectedRoute path="/edit-competition/:id">
+                    <EditCompetitionPage/>
+                </ProtectedRoute>
+
+                <ProtectedRoute path="/competition/:id/submit">
                     <CreateProjectPage/>
-                </Route>
+                </ProtectedRoute>
+                
+                <ProtectedRoute path="/edit-project/:id">
+                    <EditProjectPage/>
+                </ProtectedRoute>
 
                 <Route path="/project/:id">
                     <ProjectPage/>

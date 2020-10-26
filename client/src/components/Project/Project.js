@@ -1,8 +1,10 @@
 import React from "react"
 import clsx from "clsx"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { Paper, Typography, Grid, Button } from "@material-ui/core"
+import { Paper, Typography, Grid, Button, IconButton } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import EditIcon from "@material-ui/icons/Edit"
 
 import Avatar from "../User/Avatar.js"
 import Username from "../User/Username.js"
@@ -12,11 +14,6 @@ import VoteButton from "./VoteButton.js"
 const useStyles = makeStyles(theme => ({
     project: {
         padding: theme.spacing(2)
-    },
-
-    header: {
-        display: "flex",
-        alignItems: "center"
     },
 
     spacingBottom: {
@@ -40,12 +37,27 @@ const useStyles = makeStyles(theme => ({
 function Project({ className, data }) {
     const classes = useStyles()
 
+    const isLoggedIn = useSelector(store => store.auth.isLoggedIn)
+    const user = useSelector(store => store.auth.user)
+
     return (
         <Paper className={clsx(className, classes.project)}>
-            <div className={clsx(classes.header, classes.spacingBottom)}>
-                <Avatar user={data.user} size={28} className={classes.avatar}/>
-                <Typography variant="subtitle1"><Username user={data.user}/></Typography>
-            </div>
+            <Grid container className={classes.spacingBottom}>
+                <Grid item xs container alignItems="center">
+                    <Avatar user={data.user} size={28} className={classes.avatar}/>
+                    <Typography variant="subtitle1"><Username user={data.user}/></Typography>
+                </Grid>
+
+                <Grid item xs container justify="flex-end">
+                    { isLoggedIn && data.user.id === user.id && (
+                        <Link to={"/edit-project/" + data.id}>
+                            <IconButton size="small">
+                                <EditIcon />
+                            </IconButton>
+                        </Link>
+                    ) }
+                </Grid>
+            </Grid>
 
             <Grid container className={classes.spacingBottom}>
                 { data.images.map(image => (
@@ -57,7 +69,7 @@ function Project({ className, data }) {
 
             <Grid container>
                 <Link to={"/project/" + data.id}>
-                    <Button variant="outlined" className={classes.viewButton}>
+                    <Button variant="outlined" color="primary" className={classes.viewButton}>
                         View Project
                     </Button>
                 </Link>

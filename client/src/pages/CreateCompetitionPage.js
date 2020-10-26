@@ -1,12 +1,13 @@
 import React from "react"
 
 import Layout from "../components/Layout/Layout.js"
-import CreateCompetitionForm from "../components/Forms/CreateCompetitionForm.js"
+import CompetitionForm from "../components/Forms/CompetitionForm.js"
+import { createCompetition } from "../config/api.js"
 
 function CreateCompetitionPage() {
     return (
         <Layout>
-            <CreateCompetitionForm/>
+            <CompetitionForm apiMethod={createCompetition}/>
         </Layout>
     )
 }

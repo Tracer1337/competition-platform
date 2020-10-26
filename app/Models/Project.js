@@ -6,7 +6,6 @@ const Image = require("./Image.js")
 const Vote = require("./Vote.js")
 const StorageFacade = require("../Facades/StorageFacade.js")
 const CompetitionServiceProvider = require("../Services/CompetitionServiceProvider.js")
-const config = require("../../config")
 
 let Competition
 

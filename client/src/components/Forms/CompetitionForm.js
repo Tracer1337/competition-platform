@@ -8,7 +8,6 @@ import { DateTimePicker } from "@material-ui/pickers"
 
 import Input from "./components/Input.js"
 import LoadingButton from "./components/LoadingButton.js"
-import { createCompetition } from "../../config/api.js"
 
 const useStyles = makeStyles(theme => ({
     formWrapper: {
@@ -24,16 +23,18 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-function CreateCompetitionForm() {
+function CompetitionForm({ apiMethod, data, isEditMode }) {
     const classes = useStyles()
 
     const history = useHistory()
 
-    const [briefingText, setBriefingText] = useState("")
+    const [briefingText, setBriefingText] = useState(data?.briefing_text || "")
     const [endDate, setEndDate] = useState()
     const [isLoading, setIsLoading] = useState(false)
 
-    const formObject = useForm()
+    const formObject = useForm({
+        defaultValues: data
+    })
     const { handleSubmit } = formObject
 
     const onSubmit = (values) => {
@@ -42,7 +43,7 @@ function CreateCompetitionForm() {
 
         setIsLoading(true)
 
-        createCompetition(values)
+        apiMethod(values)
             .then((res) => {
                 history.push("/competition/" + res.data.id)
             })
@@ -51,7 +52,7 @@ function CreateCompetitionForm() {
 
     return (
         <div>
-            <Typography variant="h4" gutterBottom>Create Competition</Typography>
+            <Typography variant="h4" gutterBottom>{ isEditMode ? "Edit" : "Create" } Competition</Typography>
 
             <Paper variant="outlined" className={classes.formWrapper}>
                 <FormProvider {...formObject}>
@@ -92,7 +93,7 @@ function CreateCompetitionForm() {
                             color="primary"
                             isLoading={isLoading}
                             className={classes.spacing}
-                        >Create</LoadingButton>
+                        >{ isEditMode ? "Save" : "Create" }</LoadingButton>
                         
                     </form>
                 </FormProvider>
@@ -101,4 +102,4 @@ function CreateCompetitionForm() {
     )
 }
 
-export default CreateCompetitionForm
+export default CompetitionForm

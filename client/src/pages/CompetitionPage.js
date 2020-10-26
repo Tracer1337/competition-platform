@@ -1,7 +1,7 @@
 import React from "react"
 import { useParams, Redirect, Link } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { CircularProgress, Typography, Divider, Button } from "@material-ui/core"
+import { CircularProgress, Typography, Divider, Button, Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import MDEditor from "@uiw/react-md-editor"
 
@@ -42,6 +42,7 @@ function CompetitionPage() {
     const classes = useStyles()
 
     const isLoggedIn = useSelector(store => store.auth.isLoggedIn)
+    const user = useSelector(store => store.auth.user)
 
     const { isLoading, data, error } = useAPIData({
         method: "getCompetition",
@@ -61,6 +62,15 @@ function CompetitionPage() {
         <Layout>
             { isLoading ? <CircularProgress/> : (
                 <>
+                    { isLoggedIn && data.user.id === user.id && (
+                        <Grid container justify="flex-end" className={classes.spacingBottom}>
+                            <Link to={"/edit-competition/" + id}>
+                                <Button variant="contained">Edit Competition</Button>
+                            </Link>
+                        </Grid>
+                    )}
+                        
+
                     <div className={classes.header}>
                         <Typography variant="h4">{ data.title }</Typography>
 

@@ -9,7 +9,7 @@ function LoginPage() {
 
     return (
         <Layout>
-            <LoginWithDiscord onSuccess={() => history.push("/")}/>
+            <LoginWithDiscord onSuccess={() => history.push("/profile")}/>
         </Layout>
     )
 }
