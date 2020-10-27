@@ -9,7 +9,7 @@ const ssh = new NodeSSH()
 const ROOT_DIR = path.join(__dirname, "..")
 
 const EDITOR_BUILD_DIR = path.join(ROOT_DIR, "client", "", "build")
-const EDITOR_OUTPUT_DIR = path.join(ROOT_DIR, "public", "editor")
+const EDITOR_OUTPUT_DIR = path.join(ROOT_DIR, "public")
 
 program
     .option("-b, --build", "create a new react production build")
