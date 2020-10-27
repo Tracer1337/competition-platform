@@ -96,7 +96,7 @@ function ProjectPage() {
                         </Grid>
 
                         <Grid item xs container justify="flex-end">
-                            <Link to={"/competition/" + data.competition.id}>
+                            <Link to={"/competition/" + data.competition_id}>
                                 <Button variant="outlined">View Competition</Button>
                             </Link>
                         </Grid>

@@ -33,6 +33,12 @@ async function canCreateProject(user, competition) {
 async function canVoteForProject(user, project) {
     initVars()
 
+    const competition = await Competition.findBy("id", project.competition_id)
+
+    if (competition.state !== COMPETITION_STATES["OPEN"]) {
+        return false
+    }
+
     let amountOfVotesInCompetition = (await queryAsync(`
         SELECT COUNT(1) FROM votes 
         INNER JOIN projects ON votes.project_id = projects.id 

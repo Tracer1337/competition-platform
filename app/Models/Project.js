@@ -30,7 +30,6 @@ class Project extends Model {
     async init() {
         this.created_at = moment(this.created_at)
         this.user = await User.findBy("id", this.user_id)
-        this.competition = await Competition.findBy("id", this.competition_id)
         this.images = await Image.findAllBy("project_id", this.id)
         this.votes = (await Vote.findAllBy("project_id", this.id)).length
     }
@@ -64,7 +63,7 @@ class Project extends Model {
         return {
             id: this.id,
             user: this.user,
-            competition: this.competition,
+            competition_id: this.competition_id,
             images: this.images,
             votes: this.votes,
             hasVoted: this.hasVoted,

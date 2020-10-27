@@ -7,6 +7,7 @@ import MDEditor from "@uiw/react-md-editor"
 
 import Layout from "../components/Layout/Layout.js"
 import Submissions from "../components/Competition/Submissions.js"
+import EndDate from "../components/Competition/EndDate.js"
 import useAPIData from "../utils/useAPIData.js"
 
 const useStyles = makeStyles(theme => ({
@@ -77,9 +78,9 @@ function CompetitionPage() {
                         <div className={classes.dates}>
                             <Typography variant="subtitle1">Started { data.created_at.fromNow() }</Typography>
 
-                            { data.end_at && (
-                                <Typography variant="subtitle1">End: { data.end_at.format("DD.MM.YYYY HH:mm") }</Typography>
-                            ) }
+                            <Typography variant="subtitle1">
+                                <EndDate data={data}/>
+                            </Typography>
                         </div>
                     </div>
 
@@ -89,7 +90,7 @@ function CompetitionPage() {
 
                     <Divider className={classes.divider}/>
 
-                    { isLoggedIn && !data.hasSubmitted && (
+                    { isLoggedIn && !data.hasSubmitted && data.status === "open" && (
                         <Link to={`/competition/${id}/submit`}>
                             <Button variant="contained" color="primary" className={classes.spacingBottom}>Submit A Project</Button>
                         </Link>

@@ -3,6 +3,7 @@ const moment = require("moment")
 const Model = require("../../lib/Model.js")
 const User = require("../Models/User.js")
 const Project = require("../Models/Project.js")
+const { queryAsync } = require("../utils")
 
 class Competition extends Model {
     constructor(values) {
@@ -17,6 +18,7 @@ class Competition extends Model {
         })
 
         this.hasSubmitted = null
+        this.winner_user = null
     }
 
     async init() {
@@ -26,6 +28,12 @@ class Competition extends Model {
         
         this.created_at = moment(this.created_at)
         this.user = await User.findBy("id", this.user_id)
+
+        if (this.winner_project_id) {
+            const result = await queryAsync(`SELECT * FROM projects INNER JOIN users ON users.id = projects.user_id WHERE projects.id = '${this.winner_project_id}'`)
+            this.winner_user = new User(result[0])
+            await this.winner_user.init()
+        }
     }
 
     async setHasSubmitted(user) {
@@ -53,6 +61,7 @@ class Competition extends Model {
             briefing_text: this.briefing_text,
             state: this.state,
             winner_project_id: this.winner_project_id,
+            winner_user: this.winner_user,
             end_at: this.end_at,
             created_at: this.created_at
         }

@@ -38,6 +38,8 @@ function CompetitionForm({ apiMethod, data, isEditMode }) {
     const { handleSubmit } = formObject
 
     const onSubmit = (values) => {
+        endDate.seconds(0)
+        
         values.briefing_text = briefingText
         values.end_at = endDate
 

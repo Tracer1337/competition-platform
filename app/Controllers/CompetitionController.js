@@ -34,6 +34,8 @@ async function getSubmissions(req, res) {
         ]))
     }
 
+    models.sort((a, b) => b.votes - a.votes)
+
     return res.send(models)
 }
 
@@ -42,6 +44,8 @@ async function create(req, res) {
         ...req.body,
         user_id: req.user.id
     })
+
+    await model.init()
 
     await model.store()
     

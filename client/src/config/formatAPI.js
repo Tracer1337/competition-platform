@@ -19,6 +19,10 @@ function formatCompetition(data) {
     if (data.end_at) {
         data.end_at = moment(data.end_at)
     }
+
+    if (data.winner_user) {
+        formatUser(data.winner_user)
+    }
 }
 
 function formatUser(data) {
@@ -28,7 +32,6 @@ function formatUser(data) {
 
 function formatProject(data) {
     formatUser(data.user)
-    formatCompetition(data.competition)
 
     data.images.map(formatImage)
 
