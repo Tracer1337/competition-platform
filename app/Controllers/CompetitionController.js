@@ -29,10 +29,7 @@ async function getSubmissions(req, res) {
     const models = await Project.findAllBy("competition_id", req.params.id)
 
     if (req.user) {
-        await models.mapAsync(model => Promise.all([
-            model.setHasVoted(req.user),
-            model.setCanVote(req.user)
-        ]))
+        await models.mapAsync(model => model.setHasVoted(req.user))
     }
 
     models.sort((a, b) => b.votes - a.votes)

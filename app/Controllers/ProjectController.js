@@ -27,10 +27,7 @@ async function getOne(req, res) {
     }
 
     if (req.user) {
-        await Promise.all([
-            await model.setHasVoted(req.user),
-            await model.setCanVote(req.user)
-        ])
+        await model.setHasVoted(req.user)
     }
 
     res.send(model)

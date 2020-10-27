@@ -28,7 +28,9 @@ class Competition extends Model {
         this.user = await User.findBy("id", this.user_id)
 
         if (this.winner_project_ids) {
-            this.winner_project_ids = JSON.parse(this.winner_project_ids)
+            if (typeof this.winner_project_ids === "string") {
+                this.winner_project_ids = JSON.parse(this.winner_project_ids)
+            }
     
             this.winner_projects = await Promise.all(this.winner_project_ids.map(id => Project.findBy("id", id)))
         }

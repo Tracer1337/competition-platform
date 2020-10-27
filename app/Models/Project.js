@@ -5,7 +5,6 @@ const User = require("../Models/User.js")
 const Image = require("./Image.js")
 const Vote = require("./Vote.js")
 const StorageFacade = require("../Facades/StorageFacade.js")
-const CompetitionServiceProvider = require("../Services/CompetitionServiceProvider.js")
 
 let Competition
 
@@ -22,7 +21,6 @@ class Project extends Model {
         })
 
         this.hasVoted = null
-        this.canVote = null
 
         Competition = require("./Competition.js")
     }
@@ -37,10 +35,6 @@ class Project extends Model {
     async setHasVoted(user) {
         const vote = await Vote.where(`project_id = '${this.id}' AND user_id = '${user.id}'`)
         this.hasVoted = !!vote[0]
-    }
-
-    async setCanVote(user) {
-        this.canVote = await CompetitionServiceProvider.canVoteForProject(user, this)
     }
 
     getColumns() {
@@ -67,7 +61,6 @@ class Project extends Model {
             images: this.images,
             votes: this.votes,
             hasVoted: this.hasVoted,
-            canVote: this.canVote,
             description: this.description,
             filename: this.filename,
             project_url: this.project_url,
