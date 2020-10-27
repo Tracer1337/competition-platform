@@ -29,7 +29,7 @@ function EditProjectPage() {
             <ProjectForm
                 isEditMode
                 data={data}
-                competitionId={data.competition.id}
+                competitionId={data.competition_id}
                 apiMethod={editProject.bind(null, id)}
                 onReload={reload}
             />

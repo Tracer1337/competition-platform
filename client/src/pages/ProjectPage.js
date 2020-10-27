@@ -10,6 +10,7 @@ import Layout from "../components/Layout/Layout.js"
 import Avatar from "../components/User/Avatar.js"
 import Username from "../components/User/Username.js"
 import VoteButton from "../components/Project/VoteButton.js"
+import OpenProjectButton from "../components/Project/OpenProjectButton.js"
 import useAPIData from "../utils/useAPIData.js"
 import { getFileExtension } from "../utils"
 
@@ -24,6 +25,10 @@ const useStyles = makeStyles(theme => ({
 
     spacingBottom: {
         marginBottom: theme.spacing(4)
+    },
+
+    spacingRight: {
+        marginRight: theme.spacing(2)
     },
 
     divider: {
@@ -82,8 +87,10 @@ function ProjectPage() {
                         </Grid>
 
                         <Grid item xs container justify="flex-end">
+                            <OpenProjectButton project={data} variant="contained" className={classes.spacingRight}/>
+
                             <a href={data.file_url} download={data.user.username + getFileExtension(data.filename)}>
-                                <Button variant="contained">
+                                <Button variant="contained" color="primary">
                                     Download Project
                                 </Button>
                             </a>

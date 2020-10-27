@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import MDEditor from "@uiw/react-md-editor"
 import DeleteIcon from "@material-ui/icons/Delete"
 
+import Input from "./components/Input.js"
 import FileInput from "./components/FileInput.js"
 import MultiFileInput from "./components/MultiFileInput.js"
 import LoadingButton from "./components/LoadingButton.js"
@@ -84,6 +85,7 @@ function ProjectForm({ apiMethod, isEditMode, data, competitionId, onReload = ()
         formData.append("file", values.file)
         formData.append("description", values.description)
         formData.append("competition_id", competitionId)
+        formData.append("project_url", values.project_url)
         
         for (let image of values.images) {
             formData.append("images", image)
@@ -113,6 +115,13 @@ function ProjectForm({ apiMethod, isEditMode, data, competitionId, onReload = ()
                             buttonLabel={isEditMode ? "Upload New File" : "Upload File"}
                             spacing={false}
                             required={!isEditMode}
+                        />
+
+                        {/* URL */}
+                        <Input
+                            name="project_url"
+                            label="Project URL"
+                            width="300px"
                         />
 
                         {/* Description */}

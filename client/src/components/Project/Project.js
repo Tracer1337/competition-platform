@@ -10,6 +10,7 @@ import Avatar from "../User/Avatar.js"
 import Username from "../User/Username.js"
 import Image from "./Image.js"
 import VoteButton from "./VoteButton.js"
+import OpenProjectButton from "./OpenProjectButton.js"
 
 const useStyles = makeStyles(theme => ({
     project: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
     },
 
-    viewButton: {
+    spacingRight: {
         marginRight: theme.spacing(2)
     }
 }))
@@ -69,10 +70,12 @@ function Project({ className, data }) {
 
             <Grid container>
                 <Link to={"/project/" + data.id}>
-                    <Button variant="outlined" color="primary" className={classes.viewButton}>
+                    <Button variant="outlined" color="primary" className={classes.spacingRight}>
                         View Project
                     </Button>
                 </Link>
+
+                <OpenProjectButton project={data} className={classes.spacingRight} />
 
                 <VoteButton project={data} />
             </Grid>

@@ -13,7 +13,7 @@ class Project extends Model {
     constructor(values) {
         super({
             table: "projects",
-            columns: ["id", "user_id", "competition_id", "description", "filename", "created_at"],
+            columns: ["id", "user_id", "competition_id", "description", "filename", "project_url", "created_at"],
             defaultValues: {
                 id: () => uuid(),
                 created_at: () => moment()
@@ -70,6 +70,7 @@ class Project extends Model {
             canVote: this.canVote,
             description: this.description,
             filename: this.filename,
+            project_url: this.project_url,
             created_at: this.created_at
         }
     }
