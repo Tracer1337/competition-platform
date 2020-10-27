@@ -26,10 +26,6 @@ class Competition extends Model {
         
         this.created_at = moment(this.created_at)
         this.user = await User.findBy("id", this.user_id)
-        
-        if (this.winner_project_id) {
-            this.winner_project = await Project.findBy("id", this.winner_project_id)
-        }
     }
 
     async setHasSubmitted(user) {
@@ -56,7 +52,7 @@ class Competition extends Model {
             title: this.title,
             briefing_text: this.briefing_text,
             state: this.state,
-            winner_project: this.winner_project,
+            winner_project_id: this.winner_project_id,
             end_at: this.end_at,
             created_at: this.created_at
         }
