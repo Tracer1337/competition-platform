@@ -1,6 +1,7 @@
 const Competition = require("../Models/Competition.js")
 const Project = require("../Models/Project.js")
 const CompetitionJobs = require("../Jobs/CompetitionJobs.js")
+const { COMPETITION_STATES } = require("../../config/constants.js")
 
 async function getAll(req, res) {
     const models = await Competition.getAll()
@@ -79,6 +80,11 @@ async function update(req, res) {
     await model.update()
     
     if (req.body.end_at) {
+        if (model.state === COMPETITION_STATES["ENDED"]) {
+            model.state = COMPETITION_STATES["OPEN"]
+            await model.update()
+        }
+
         CompetitionJobs.createEndJob(model)
     }
 

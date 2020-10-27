@@ -193,9 +193,16 @@ async function vote(req, res) {
 
 async function deleteVote(req, res) {
     const vote = (await Vote.where(`project_id = '${req.params.id}' AND user_id = '${req.user.id}'`))[0]
-
+    
     if (!vote) {
         return res.status(404).end()
+    }
+    
+    const project = await Project.findBy("id", req.params.id)
+    const competition = await Competition.findBy("id", project.competition_id)
+
+    if (competition.state !== COMPETITION_STATES["OPEN"]) {
+        return res.status(403).end()
     }
 
     await vote.delete()

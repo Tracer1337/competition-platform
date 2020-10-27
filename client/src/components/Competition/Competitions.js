@@ -7,7 +7,7 @@ import useAPIData from "../../utils/useAPIData.js"
 
 const useStyles = makeStyles(theme => ({
     entry: {
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(4)
     }
 }))
 

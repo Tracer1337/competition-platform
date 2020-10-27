@@ -15,7 +15,7 @@ function createEndJob(model) {
     }
 
     const job = new CronJob(momentToCron(model.end_at), async () => {
-        console.log("Triggered")
+        console.log("Competition ended: ", model.title)
 
         await CompetitionServiceProvider.endCompetition(model.id)
 

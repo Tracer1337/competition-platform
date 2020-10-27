@@ -9,7 +9,7 @@ module.exports = {
     run: async () => {
         const { id: user_id } = (await User.getAll())[0]
 
-        const competitions = [
+        const data = [
             ["This is my amazing competition!", 
 `### My Briefing
 
@@ -27,7 +27,7 @@ module.exports = {
             "2020-11-10T11:00:00.000Z", "2020-10-27T07:56:26+01:00"]
         ]
 
-        await Promise.all(competitions.map(async ([title, briefing_text, end_at, created_at]) => {
+        await Promise.all(data.map(async ([title, briefing_text, end_at, created_at]) => {
             const model = new Competition({ user_id, title, briefing_text, end_at, created_at })
             await model.init()
             await model.store()

@@ -20,8 +20,8 @@ function formatCompetition(data) {
         data.end_at = moment(data.end_at)
     }
 
-    if (data.winner_user) {
-        formatUser(data.winner_user)
+    if (data.winner_projects) {
+        data.winner_projects.map(formatProject)
     }
 }
 

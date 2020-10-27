@@ -3,13 +3,12 @@ const moment = require("moment")
 const Model = require("../../lib/Model.js")
 const User = require("../Models/User.js")
 const Project = require("../Models/Project.js")
-const { queryAsync } = require("../utils")
 
 class Competition extends Model {
     constructor(values) {
         super({
             table: "competitions",
-            columns: ["id", "user_id", "title", "briefing_text", "state", "winner_project_id", "end_at", "created_at"],
+            columns: ["id", "user_id", "title", "briefing_text", "state", "winner_project_ids", "end_at", "created_at"],
             defaultValues: {
                 id: () => uuid(),
                 created_at: () => moment()
@@ -18,7 +17,6 @@ class Competition extends Model {
         })
 
         this.hasSubmitted = null
-        this.winner_user = null
     }
 
     async init() {
@@ -29,10 +27,10 @@ class Competition extends Model {
         this.created_at = moment(this.created_at)
         this.user = await User.findBy("id", this.user_id)
 
-        if (this.winner_project_id) {
-            const result = await queryAsync(`SELECT * FROM projects INNER JOIN users ON users.id = projects.user_id WHERE projects.id = '${this.winner_project_id}'`)
-            this.winner_user = new User(result[0])
-            await this.winner_user.init()
+        if (this.winner_project_ids) {
+            this.winner_project_ids = JSON.parse(this.winner_project_ids)
+    
+            this.winner_projects = await Promise.all(this.winner_project_ids.map(id => Project.findBy("id", id)))
         }
     }
 
@@ -49,6 +47,8 @@ class Competition extends Model {
             values.end_at = values.end_at.format()
         }
 
+        values.winner_project_ids = JSON.stringify(values.winner_project_ids)
+
         return values
     }
 
@@ -60,8 +60,7 @@ class Competition extends Model {
             title: this.title,
             briefing_text: this.briefing_text,
             state: this.state,
-            winner_project_id: this.winner_project_id,
-            winner_user: this.winner_user,
+            winner_projects: this.winner_projects,
             end_at: this.end_at,
             created_at: this.created_at
         }

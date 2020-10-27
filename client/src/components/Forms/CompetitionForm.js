@@ -29,7 +29,7 @@ function CompetitionForm({ apiMethod, data, isEditMode }) {
     const history = useHistory()
 
     const [briefingText, setBriefingText] = useState(data?.briefing_text || "")
-    const [endDate, setEndDate] = useState()
+    const [endDate, setEndDate] = useState(data?.end_at)
     const [isLoading, setIsLoading] = useState(false)
 
     const formObject = useForm({
@@ -38,7 +38,9 @@ function CompetitionForm({ apiMethod, data, isEditMode }) {
     const { handleSubmit } = formObject
 
     const onSubmit = (values) => {
-        endDate.seconds(0)
+        if (endDate) {
+            endDate.seconds(0)
+        }
         
         values.briefing_text = briefingText
         values.end_at = endDate

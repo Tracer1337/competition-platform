@@ -64,15 +64,19 @@ async function endCompetition(id) {
     const projects = await Project.findAllBy("competition_id", id)
 
     if (projects.length > 0) {
-        let winner = projects[0]
+        let mostVotes = [projects[0]]
     
-        projects.forEach(project => {
-            if (project.votes > winner.votes) {
-                winner = project
+        for (let i = 1; i < projects.length; i++) {
+            const project = projects[i]
+            
+            if (project.votes > mostVotes[0].votes) {
+                mostVotes = [project]
+            } else if (project.votes === mostVotes[0].votes) {
+                mostVotes.push(project)
             }
-        })
+        }
     
-        model.winner_project_id = winner.id
+        model.winner_project_ids = mostVotes.map(project => project.id)
     }
 
     await model.update()

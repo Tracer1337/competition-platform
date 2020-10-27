@@ -122,6 +122,7 @@ function ProjectForm({ apiMethod, isEditMode, data, competitionId, onReload = ()
                             name="project_url"
                             label="Project URL"
                             width="300px"
+                            required={false}
                         />
 
                         {/* Description */}
