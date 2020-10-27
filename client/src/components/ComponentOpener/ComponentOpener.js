@@ -14,7 +14,7 @@ const methods = {}
 function ComponentOpener() {
     const theme = useTheme()
 
-    const eventTarget = useRef(new Emittable)
+    const eventTarget = useRef(new Emittable())
 
     const [components, setComponents] = useState([])
 

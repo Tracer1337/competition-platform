@@ -12,7 +12,7 @@ function requestToken(code) {
             client_secret: process.env.DISCORD_API_CLIENT_SECRET,
             grant_type: "authorization_code",
             code,
-            redirect_uri: `http://${process.env.HOST}:${process.env.PORT}/api/auth/discord`,
+            redirect_uri: `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}/api/auth/discord`,
             scope: "identify"
         }
 
