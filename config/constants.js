@@ -1,6 +1,6 @@
 module.exports = {
     COMPETITION_STATES: {
-        OPEN: 0,
-        ENDED: 1
+        OPEN: "open",
+        ENDED: "ended"
     }
 }

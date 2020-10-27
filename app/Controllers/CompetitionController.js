@@ -1,5 +1,6 @@
 const Competition = require("../Models/Competition.js")
 const Project = require("../Models/Project.js")
+const CompetitionJobs = require("../Jobs/CompetitionJobs.js")
 
 async function getAll(req, res) {
     const models = await Competition.getAll()
@@ -43,6 +44,11 @@ async function create(req, res) {
     })
 
     await model.store()
+    
+    if (model.end_at) {
+        await model.init()
+        CompetitionJobs.createEndJob(model)
+    }
 
     res.send(model)
 }
@@ -64,7 +70,13 @@ async function update(req, res) {
         }
     })
 
+    await model.init()
+    
     await model.update()
+    
+    if (req.body.end_at) {
+        CompetitionJobs.createEndJob(model)
+    }
 
     res.send(model)
 }

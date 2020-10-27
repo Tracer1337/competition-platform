@@ -8,7 +8,7 @@ class Competition extends Model {
     constructor(values) {
         super({
             table: "competitions",
-            columns: ["id", "user_id", "title", "briefing_text", "end_at", "created_at"],
+            columns: ["id", "user_id", "title", "briefing_text", "state", "winner_project_id", "end_at", "created_at"],
             defaultValues: {
                 id: () => uuid(),
                 created_at: () => moment()
@@ -20,8 +20,16 @@ class Competition extends Model {
     }
 
     async init() {
+        if (this.end_at) {
+            this.end_at = moment(this.end_at)
+        }
+        
         this.created_at = moment(this.created_at)
         this.user = await User.findBy("id", this.user_id)
+        
+        if (this.winner_project_id) {
+            this.winner_project = await Project.findBy("id", this.winner_project_id)
+        }
     }
 
     async setHasSubmitted(user) {
@@ -32,6 +40,11 @@ class Competition extends Model {
     getColumns() {
         const values = super.getColumns()
         values.created_at = values.created_at.format()
+
+        if (values.end_at) {
+            values.end_at = values.end_at.format()
+        }
+
         return values
     }
 
@@ -42,6 +55,8 @@ class Competition extends Model {
             hasSubmitted: this.hasSubmitted,
             title: this.title,
             briefing_text: this.briefing_text,
+            state: this.state,
+            winner_project: this.winner_project,
             end_at: this.end_at,
             created_at: this.created_at
         }

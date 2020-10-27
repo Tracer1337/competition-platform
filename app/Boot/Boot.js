@@ -4,6 +4,7 @@ const AWS = require("aws-sdk")
 
 const createConnection = require("../../database")
 const routes = require("../../routes")
+const CompetitionJobs = require("../Jobs/CompetitionJobs.js")
 
 async function boot(app) {
     global.db = await createConnection()
@@ -11,6 +12,8 @@ async function boot(app) {
     AWS.config.update({ region: "eu-central-1" })
 
     setupExpress(app)
+
+    await CompetitionJobs.restoreJobs()
 }
 
 function setupExpress(app) {

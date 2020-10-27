@@ -1,11 +1,19 @@
 const Vote = require("../Models/Vote.js")
 const { queryAsync } = require("../utils/index.js")
 const config = require("../../config")
+const { COMPETITION_STATES } = require("../../config/constants.js")
 
 let Project
+let Competition
 
 function initVars() {
-    Project = require("../Models/Project.js")
+    if (!Project) {
+        Project = require("../Models/Project.js")
+    }
+
+    if (!Competition) {
+        Competition = require("../Models/Competition.js")
+    }
 }
 
 /**
@@ -40,4 +48,28 @@ async function canVoteForProject(user, project) {
     )
 }
 
-module.exports = { canCreateProject, canVoteForProject }
+async function endCompetition(id) {
+    initVars()
+
+    const model = await Competition.findBy("id", id)
+
+    model.state = COMPETITION_STATES["ENDED"]
+
+    const projects = await Project.findAllBy("competition_id", id)
+
+    if (projects.length > 0) {
+        let winner = projects[0]
+    
+        projects.forEach(project => {
+            if (project.votes > winner.votes) {
+                winner = project
+            }
+        })
+    
+        model.winner_project_id = winner.id
+    }
+
+    await model.update()
+}
+
+module.exports = { canCreateProject, canVoteForProject, endCompetition }

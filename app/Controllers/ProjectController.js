@@ -8,7 +8,7 @@ const StorageFacade = require("../Facades/StorageFacade.js")
 const FileServiceProvider = require("../Services/FileServiceProvider.js")
 const CompetitionServiceProvider = require("../Services/CompetitionServiceProvider.js")
 const config = require("../../config")
-const { resolveNs } = require("dns")
+const { COMPETITION_STATES } = require("../../config/constants.js")
 
 async function deleteImages(req) {
     await Promise.all(Object.values(req.files).flat().map(image => fs.promises.unlink(image.path)))
@@ -42,6 +42,10 @@ async function create(req, res) {
     if (!competition) {
         await deleteImages(req)
         return res.status(400).send({ error: "Invalid competition id" })
+    }
+
+    if (competition.state !== COMPETITION_STATES["OPEN"]) {
+        return res.status(403).send({ error: "The competition is not open" })
     }
 
     if (!(await CompetitionServiceProvider.canCreateProject(req.user, competition))) {
