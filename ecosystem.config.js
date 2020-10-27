@@ -1,8 +1,8 @@
 module.exports = {
  	apps: [
 		{
-			name: "pm2 name",
-			script: "./index.js",
+			name: "competition-platform",
+			script: "./server.js",
 			env: {
 				"NODE_ENV": "production"
 			}
