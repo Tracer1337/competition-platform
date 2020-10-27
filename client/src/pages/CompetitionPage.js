@@ -1,5 +1,5 @@
-import React from "react"
-import { useParams, Redirect, Link } from "react-router-dom"
+import React, { useState } from "react"
+import { useParams, Redirect, Link, useHistory } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { CircularProgress, Typography, Divider, Button, Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
@@ -8,7 +8,10 @@ import MDEditor from "@uiw/react-md-editor"
 import Layout from "../components/Layout/Layout.js"
 import Submissions from "../components/Competition/Submissions.js"
 import EndDate from "../components/Competition/EndDate.js"
+import ErrorLoadingButton from "../components/Styled/ErrorLoadingButton.js"
 import useAPIData from "../utils/useAPIData.js"
+import { deleteCompetition } from "../config/api.js"
+import { opener } from "../components/ComponentOpener/ComponentOpener.js"
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -34,6 +37,10 @@ const useStyles = makeStyles(theme => ({
 
     spacingBottom: {
         marginBottom: theme.spacing(4)
+    },
+
+    spacingRight: {
+        marginRight: theme.spacing(2)
     }
 }))
 
@@ -42,14 +49,32 @@ function CompetitionPage() {
 
     const classes = useStyles()
 
+    const history = useHistory()
+
     const isLoggedIn = useSelector(store => store.auth.isLoggedIn)
     const user = useSelector(store => store.auth.user)
+
+    const [isDeleting, setIsDeleting] = useState(false)
 
     const { isLoading, data, error } = useAPIData({
         method: "getCompetition",
         data: id,
         useCache: false
     })
+
+    const handleDelete = () => {
+        const dialog = opener.openDialog("Confirm", { content: "This competition including all submissions will be deleted and cannot be restored." })
+
+        dialog.addEventListener("close", (shouldDelete) => {
+            if (shouldDelete) {
+                setIsDeleting(true)
+
+                deleteCompetition(id)
+                    .then(() => history.push("/"))
+                    .then(() => setIsDeleting(false))
+            }
+        })
+    }
 
     if (error?.response.status === 404) {
         return <Redirect to="/404"/>
@@ -66,8 +91,10 @@ function CompetitionPage() {
                     { isLoggedIn && data.user.id === user.id && (
                         <Grid container justify="flex-end" className={classes.spacingBottom}>
                             <Link to={"/edit-competition/" + id}>
-                                <Button variant="contained">Edit Competition</Button>
+                                <Button variant="contained" className={classes.spacingRight}>Edit Competition</Button>
                             </Link>
+
+                            <ErrorLoadingButton onClick={handleDelete} isLoading={isDeleting}>Delete Competition</ErrorLoadingButton>
                         </Grid>
                     )}
                         

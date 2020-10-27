@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { useParams, Redirect } from "react-router-dom"
 import { CircularProgress, Typography, Divider, Grid, Button } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
@@ -11,8 +11,11 @@ import Avatar from "../components/User/Avatar.js"
 import Username from "../components/User/Username.js"
 import VoteButton from "../components/Project/VoteButton.js"
 import OpenProjectButton from "../components/Project/OpenProjectButton.js"
+import ErrorLoadingButton from "../components/Styled/ErrorLoadingButton.js"
 import useAPIData from "../utils/useAPIData.js"
+import { deleteProject } from "../config/api.js"
 import { getFileExtension } from "../utils"
+import { opener } from "../components/ComponentOpener/ComponentOpener.js"
 
 const useStyles = makeStyles(theme => ({
     avatar: {
@@ -24,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     },
 
     spacingBottom: {
-        marginBottom: theme.spacing(4)
+        marginBottom: theme.spacing(2)
     },
 
     spacingRight: {
@@ -48,14 +51,32 @@ function ProjectPage() {
 
     const classes = useStyles()
 
+    const history = useHistory()
+
     const isLoggedIn = useSelector(store => store.auth.isLoggedIn)
     const user = useSelector(store => store.auth.user)
+
+    const [isDeleting, setIsDeleting] = useState(false)
 
     const { isLoading, data, error } = useAPIData({
         method: "getProject",
         data: id, 
         useCache: false
     })
+
+    const handleDelete = () => {
+        const dialog = opener.openDialog("Confirm", { content: "The project will be deleted and cannot be restored." })
+
+        dialog.addEventListener("close", (shouldDelete) => {
+            if (shouldDelete) {
+                setIsDeleting(true)
+
+                deleteProject(id)
+                    .then(() => history.goBack())
+                    .finally(() => setIsDeleting(false))
+            }
+        })
+    }
 
     if (error?.response.status === 404) {
         return <Redirect to="/404"/>
@@ -70,10 +91,12 @@ function ProjectPage() {
             { isLoading ? <CircularProgress /> : (
                 <>
                     { isLoggedIn && data.user.id === user.id && (
-                        <Grid container justify="flex-end">
+                        <Grid container justify="flex-end" className={classes.spacingBottom}>
                             <Link to={"/edit-project/" + id}>
-                                <Button variant="contained" className={classes.spacingBottom}>Edit Project</Button>
+                                <Button variant="contained" className={classes.spacingRight}>Edit Project</Button>
                             </Link>
+
+                            <ErrorLoadingButton onClick={handleDelete} isLoading={isDeleting}>Delete Project</ErrorLoadingButton>
                         </Grid>
                     ) }
 

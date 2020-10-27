@@ -41,6 +41,14 @@ class Competition extends Model {
         this.hasSubmitted = !!project[0]
     }
 
+    async delete() {
+        const projects = await Project.findAllBy("competition_id", this.id)
+
+        await Promise.all(projects.map(project => project.delete()))
+
+        return super.delete()
+    }
+
     getColumns() {
         const values = super.getColumns()
         values.created_at = values.created_at.format()

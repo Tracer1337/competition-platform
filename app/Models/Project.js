@@ -50,6 +50,9 @@ class Project extends Model {
 
         await Promise.all(this.images.map(image => image.delete()))
 
+        const votes = await Vote.findAllBy("project_id", this.id)
+        await Promise.all(votes.map(vote => vote.delete()))
+
         return super.delete()
     }
 
