@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === "development") {
 } else {
     serveStaticFiles()
 
-    rootRouter.get("/*", (req, res) => res.sendFile(path.resolve(ROOT_DIR, "public", "editor", "index.html")))
+    rootRouter.get("/*", (req, res) => res.sendFile(path.resolve(ROOT_DIR, "public", "index.html")))
 }
 
 module.exports = rootRouter
