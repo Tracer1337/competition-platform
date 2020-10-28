@@ -14,6 +14,10 @@ const useStyles = makeStyles(theme => ({
 function EndDate({ data }) {
     const classes = useStyles()
 
+    if (!data.end_at) {
+        return null
+    }
+
     if (data.state === "ended") {
         return (
             <span className={classes.ended}>Ended {data.end_at.fromNow()}</span>
