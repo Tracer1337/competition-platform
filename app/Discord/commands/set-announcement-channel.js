@@ -7,11 +7,19 @@ async function run(args, message) {
         return await message.channel.send("This guild is not registered")
     }
 
+    if (model.announcement_channel_id) {
+        const channel = message.channel.guild.channels.cache.get(model.announcement_channel_id)
+
+        if (channel) {
+            await channel.send("This channel is now unregistered")
+        }
+    }
+
     model.announcement_channel_id = message.channel.id
 
     await model.update()
 
-    await message.channel.send("Success!")
+    await message.channel.send("This channel is now registered")
 }
 
 module.exports = run
