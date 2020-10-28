@@ -1,4 +1,3 @@
-const { v4: uuid } = require("uuid")
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
 
@@ -8,7 +7,6 @@ class User extends Model {
             table: "users",
             columns: ["id", "username", "discriminator", "avatar", "created_at", "is_admin"],
             defaultValues: {
-                id: () => uuid(),
                 created_at: () => moment()
             },
             ...values

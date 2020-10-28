@@ -85,6 +85,13 @@ function paginate(array, page, itemsPerPage) {
     return array.slice(start, end)
 }
 
+/**
+ * Create URI under usage of the environment variables
+ */
+function makeURI(path) {
+    return `${process.env.PROTOCOL}://${process.env.HOST}${process.env.PUBLIC_PORT ? ":" + process.env.PUBLIC_PORT : ""}${path}`
+}
+
 module.exports = {
     queryAsync,
     quotedList,
@@ -94,5 +101,6 @@ module.exports = {
     changeExtension,
     removeExtension,
     hasExtension,
-    paginate
+    paginate,
+    makeURI
 }

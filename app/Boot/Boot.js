@@ -5,6 +5,7 @@ const AWS = require("aws-sdk")
 const createConnection = require("../../database")
 const routes = require("../../routes")
 const CompetitionJobs = require("../Jobs/CompetitionJobs.js")
+const runDiscord = require("../Discord")
 
 async function boot(app) {
     global.db = await createConnection()
@@ -14,6 +15,8 @@ async function boot(app) {
     setupExpress(app)
 
     await CompetitionJobs.restoreJobs()
+
+    await runDiscord()
 }
 
 function setupExpress(app) {

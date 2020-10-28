@@ -1,5 +1,6 @@
 const fetch = require("node-fetch")
 const config = require("../../config")
+const makeURI = require("../utils")
 
 function requestToken(code) {
     return new Promise((resolve, reject) => {
@@ -12,7 +13,7 @@ function requestToken(code) {
             client_secret: process.env.DISCORD_API_CLIENT_SECRET,
             grant_type: "authorization_code",
             code,
-            redirect_uri: `${process.env.PROTOCOL}://${process.env.HOST}${process.env.PUBLIC_PORT ? ":" + process.env.PUBLIC_PORT : ""}/api/auth/discord`,
+            redirect_uri: makeURI("/api/auth/discord"),
             scope: "identify"
         }
 
