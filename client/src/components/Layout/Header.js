@@ -1,35 +1,14 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Typography } from "@material-ui/core"
+import { Typography, Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
+import DarkModeSwitch from "./DarkModeSwitch.js"
 import Avatar from "../User/Avatar.js"
 
 const useStyles = makeStyles(theme => ({
     header: {
-        margin: `${theme.spacing(4)}px 0`,
-        display: "flex",
-        justifyContent: "space-between"
-    },
-
-    spacer: {
-        width: 40
-    },
-
-    main: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-
-    links: {
-        display: "flex",
-        justifyContent: "center"
-    },
-
-    avatar: {
-        cursor: "pointer"
+        margin: `${theme.spacing(4)}px 0`
     }
 }))
 
@@ -37,25 +16,29 @@ function Header() {
     const classes = useStyles()
 
     return (
-        <div className={classes.header}>
-            <div className={classes.spacer}/>
+        <Grid container className={classes.header} alignItems="center">
+            <Grid item xs={2}>
+                <DarkModeSwitch />
+            </Grid>
 
-            <div className={classes.main}>
-                <Link to="/">
-                    <Typography variant="h4">Competition Platform</Typography>
-                </Link>
+            <Grid item xs={8} container direction="column" justify="center" alignItems="center">
+                <Grid item>
+                    <Link to="/">
+                        <Typography variant="h4">Competition Platform</Typography>
+                    </Link>
+                </Grid>
 
-                <div className={classes.links}>
+                <Grid item container justify="center">
                     <Link to="/">
                         <Typography variant="subtitle1">Competitions</Typography>
                     </Link>
-                </div>
-            </div>
+                </Grid>
+            </Grid>
 
-            <div>
-                <Avatar className={classes.avatar}/>
-            </div>
-        </div>
+            <Grid item xs={2} container justify="flex-end">
+                <Avatar className={classes.avatar} />
+            </Grid>
+        </Grid>
     )
 }
 

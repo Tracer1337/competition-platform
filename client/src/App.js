@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { CssBaseline, CircularProgress, Typography } from "@material-ui/core"
+import { useDispatch, useSelector } from "react-redux"
+import { CssBaseline, CircularProgress, Typography, createMuiTheme, ThemeProvider  } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Router from "./router/index.js"
 import { login } from "./store/actions.js"
 import { getProfile } from "./config/api.js"
+
+const lightTheme = createMuiTheme({
+    palette: {
+        type: "light"
+    }
+})
+
+const darkTheme = createMuiTheme({
+    palette: {
+        type: "dark"
+    }
+})
 
 const useStyles = makeStyles(theme => ({
     "@global": {
@@ -18,10 +30,23 @@ const useStyles = makeStyles(theme => ({
 
 const shouldLogin = !!localStorage.getItem("token")
 
-function App() {
+function GlobalStyleRenderer() {
     useStyles()
+    return null
+}
 
+function App() {
     const dispatch = useDispatch()
+
+    const isDarkMode = useSelector(store => store.settings.isDarkMode)
+
+    const theme = isDarkMode ? darkTheme : lightTheme
+
+    useEffect(() => {
+        if (process.env.NODE_ENV === "development") {
+            console.log(theme)
+        }
+    }, [theme])
 
     const [isLoading, setIsLoading] = useState(shouldLogin)
 
@@ -41,21 +66,20 @@ function App() {
         // eslint-disable-next-line
     }, [])
 
-    if (isLoading) {
-        return (
-            <div>
-                <Typography>Logging in...</Typography>
-                <CircularProgress />
-            </div>
-        )
-    }
-
     return (
-        <>
-            <CssBaseline/>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <GlobalStyleRenderer/>
 
-            <Router/>
-        </>
+            { isLoading ? (
+                <>
+                    <Typography>Logging in...</Typography>
+                    <CircularProgress />
+                </>
+            ) : (
+                <Router />
+            ) }
+        </ThemeProvider>
     )
 }
 
