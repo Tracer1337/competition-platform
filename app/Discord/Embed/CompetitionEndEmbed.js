@@ -2,15 +2,15 @@ const BaseEmbed = require("./BaseEmbed.js")
 const { makeURL } = require("../../utils")
 
 class CompetitionEndEmbed extends BaseEmbed {
-    constructor(competition) {
+    constructor(competition, strings) {
         super()
 
-        this.setTitle("The competition has ended: " + competition.title)
+        this.setTitle(`${strings["competitions.end.title"]}: ${competition.title}`)
             .setUser(competition.user)
             .setURL(makeURL("/competition/" + competition.id))
             .addField(
-                `The ${competition.winner_projects.length === 1 ? "winner is" : "winners are"}`,
-                competition.winner_projects.map(project => `<@${project.user.id}>`).join(" ") + "\n**Congratulations!** :partying_face:"
+                competition.winner_projects.length === 1 ? strings["competitions.end.winner.singular"] : strings["competitions.end.winner.plural"],
+                competition.winner_projects.map(project => `<@${project.user.id}>`).join(" ") + `\n**${strings["competitions.end.congrats"]}** :partying_face:`
             )
     }
 }

@@ -1,0 +1,24 @@
+{
+    "competitions.new.title": "New competition",
+    "competitions.new.desc": "has created a new competition - Check it out!",
+    "competitions.endDate": "End Date",
+    "competitions.openEnd": "Open End",
+
+    "competitions.end.title": "The competition has ended",
+    "competitions.end.winner.singular": "The winner is",
+    "competitions.end.winner.plural": "The winners are",
+    "competitions.end.congrats": "Congratulations!",
+
+    "competitions.setEndDate.title": "Updated",
+    "competitions.setEndDate.desc": "The competition does now have a deadline!",
+    "competitions.setEndDate.endDate": "End Date",
+
+    "competitions.updateEndDate.title": "Updated",
+    "competitions.updateEndDate.desc": "The end date got delayed, you now have",
+    "competitions.updateEndDate.more": "more",
+    "competitions.updateEndDate.less": "less",
+    "competitions.updateEndDate.endDate": "End Date",
+
+    "projects.create.title": "New submission to",
+    "projects.create.desc": "has submitted a project - Check it out!"
+}

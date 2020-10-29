@@ -1,0 +1,24 @@
+{
+    "competitions.new.title": "Neuer Wettbewerb",
+    "competitions.new.desc": "hat einen neuen Wettbewerb erstellt - Schaue ihn dir an!",
+    "competitions.endDate": "End-Datum",
+    "competitions.openEnd": "Open-End",
+
+    "competitions.end.title": "Der Wettbewerb ist beendet",
+    "competitions.end.winner.singular": "Der Gewinner ist",
+    "competitions.end.winner.plural": "Die Gewinner sind",
+    "competitions.end.congrats": "Herzlichen Glückwunsch!",
+
+    "competitions.setEndDate.title": "Aktualisiert",
+    "competitions.setEndDate.desc": "Der Wettbewerb hat jetzt eine Deadline!",
+    "competitions.setEndDate.endDate": "End-Datum",
+
+    "competitions.updateEndDate.title": "Aktualisiert",
+    "competitions.updateEndDate.desc": "Die Deadline wurde verschoben, ihr habt jetzt",
+    "competitions.updateEndDate.more": "mehr",
+    "competitions.updateEndDate.less": "weniger",
+    "competitions.updateEndDate.endDate": "End-Datum",
+
+    "projects.create.title": "Neues Projekt in",
+    "projects.create.desc": "hat ein Projekt eingereicht - Schaue es dir an!"
+}

@@ -4,9 +4,8 @@ const AnnouncementServiceProvider = require("../Services/AnnouncementServiceProv
 
 async function run(project) {
     const competition = await Competition.findBy("id", project.competition_id)
-
-    const embed = new ProjectCreateEmbed({ project, competition })
-    await AnnouncementServiceProvider.makeAnnouncement.call(this, embed)
+    
+    await AnnouncementServiceProvider.sendEmbed.call(this, ProjectCreateEmbed, [project, competition])
 }
 
 module.exports = run

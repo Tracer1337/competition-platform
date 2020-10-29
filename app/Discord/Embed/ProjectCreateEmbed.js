@@ -2,12 +2,12 @@ const BaseEmbed = require("./BaseEmbed.js")
 const { makeURL } = require("../../utils")
 
 class ProjectCreateEmbed extends BaseEmbed {
-    constructor({ project, competition }) {
+    constructor(project, competition, strings) {
         super()
 
-        this.setTitle("New submission to " + competition.title)
+        this.setTitle(`${strings["projects.create.title"]}: ${competition.title}`)
             .setUser(project.user)
-            .setDescription(`<@${project.user.id}> has submitted a project - Check it out!`)
+            .setDescription(`<@${project.user.id}> ${strings["projects.create.desc"]}`)
             .setURL(makeURL("/project/" + project.id))
 
         if (project.images[0]) {

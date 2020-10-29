@@ -2,15 +2,15 @@ const BaseEmbed = require("./BaseEmbed.js")
 const { makeURL } = require("../../utils")
 
 class CompetitionCreateEmbed extends BaseEmbed {
-    constructor(competition) {
+    constructor(competition, strings) {
         super()
 
-        this.setTitle("New competition: " + competition.title)
+        this.setTitle(`${strings["competitions.new.title"]}: ${competition.title}`)
             .setUser(competition.user)
-            .setDescription(`<@${competition.user.id}> has created a new competition - Check it out!`)
+            .setDescription(`<@${competition.user.id}> ${strings["competitions.new.desc"]}`)
             .setURL(makeURL("/competition/" + competition.id))
         
-        this.addField("End Date", competition.end_at ? competition.end_at.format("DD.MM.YYYY HH:mm") : "Open End")
+        this.addField(strings["competitions.endDate"], competition.end_at ? competition.end_at.format("DD.MM.YYYY HH:mm") : strings["competitions.openEnd"])
     }
 }
 
