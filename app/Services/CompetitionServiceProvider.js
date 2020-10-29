@@ -2,6 +2,7 @@ const Vote = require("../Models/Vote.js")
 const { queryAsync } = require("../utils/index.js")
 const config = require("../../config")
 const { COMPETITION_STATES } = require("../../config/constants.js")
+const DiscordBridge = require("../Discord/Bridge.js")
 
 let Project
 let Competition
@@ -79,7 +80,11 @@ async function endCompetition(id) {
         model.winner_project_ids = mostVotes.map(project => project.id)
     }
 
+    await model.init()
+
     await model.update()
+
+    DiscordBridge.dispatchEvent("endCompetition", model)
 }
 
 module.exports = { canCreateProject, canVoteForProject, endCompetition }

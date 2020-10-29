@@ -2,7 +2,7 @@ const BaseEmbed = require("./BaseEmbed.js")
 const { makeURL } = require("../../utils")
 
 class CompetitionCreateEmbed extends BaseEmbed {
-    constructor({ competition }) {
+    constructor(competition) {
         super()
 
         this.setTitle("New competition: " + competition.title)
