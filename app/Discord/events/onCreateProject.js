@@ -1,22 +1,12 @@
-const Guild = require("../../Models/Guild.js")
 const Competition = require("../../Models/Competition.js")
+const ProjectCreateEmbed = require("../Embed/ProjectCreateEmbed.js")
+const AnnouncementServiceProvider = require("../Services/AnnouncementServiceProvider.js")
 
 async function run(project) {
     const competition = await Competition.findBy("id", project.competition_id)
 
-    const guilds = await Guild.getAll()
-
-    await Promise.all(guilds.map(async ({ id, announcement_channel_id }) => {
-        const guild = this.guilds.cache.get(id)
-
-        if (guild) {
-            const channel = guild.channels.cache.get(announcement_channel_id)
-
-            if (channel) {
-                await channel.send(`${project.user.username} has submitted a project to ${competition.title}`)
-            }
-        }
-    }))
+    const embed = new ProjectCreateEmbed({ project, competition })
+    await AnnouncementServiceProvider.makeAnnouncement.call(this, embed)
 }
 
 module.exports = run

@@ -1,6 +1,6 @@
 const fetch = require("node-fetch")
 const config = require("../../config")
-const makeURI = require("../utils")
+const { makeURL } = require("../utils")
 
 function requestToken(code) {
     return new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ function requestToken(code) {
             client_secret: process.env.DISCORD_API_CLIENT_SECRET,
             grant_type: "authorization_code",
             code,
-            redirect_uri: makeURI("/api/auth/discord"),
+            redirect_uri: makeURL("/api/auth/discord"),
             scope: "identify"
         }
 

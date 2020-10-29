@@ -7,7 +7,7 @@ const Vote = require("../Models/Vote.js")
 const StorageFacade = require("../Facades/StorageFacade.js")
 const FileServiceProvider = require("../Services/FileServiceProvider.js")
 const CompetitionServiceProvider = require("../Services/CompetitionServiceProvider.js")
-const DiscordBridge = require("../Discord/bridge.js")
+const DiscordBridge = require("../Discord/Bridge.js")
 const config = require("../../config")
 const { COMPETITION_STATES } = require("../../config/constants.js")
 
@@ -63,8 +63,6 @@ async function create(req, res) {
         }
     }
 
-    await model.init()
-
     await model.store()
 
     if (req.files.images) {
@@ -82,6 +80,8 @@ async function create(req, res) {
             }
         }))
     }
+
+    await model.init()
 
     DiscordBridge.dispatchEvent("createProject", model)
 

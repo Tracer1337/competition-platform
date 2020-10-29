@@ -88,7 +88,7 @@ function paginate(array, page, itemsPerPage) {
 /**
  * Create URI under usage of the environment variables
  */
-function makeURI(path) {
+function makeURL(path) {
     return `${process.env.PROTOCOL}://${process.env.HOST}${process.env.PUBLIC_PORT ? ":" + process.env.PUBLIC_PORT : ""}${path}`
 }
 
@@ -102,5 +102,5 @@ module.exports = {
     removeExtension,
     hasExtension,
     paginate,
-    makeURI
+    makeURL
 }

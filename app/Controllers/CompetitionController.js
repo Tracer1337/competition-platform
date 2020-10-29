@@ -1,7 +1,10 @@
+const moment = require("moment")
+
 const Competition = require("../Models/Competition.js")
 const Project = require("../Models/Project.js")
 const CompetitionJobs = require("../Jobs/CompetitionJobs.js")
 const { COMPETITION_STATES } = require("../../config/constants.js")
+const DiscordBridge = require("../Discord/Bridge.js")
 
 async function getAll(req, res) {
     const models = await Competition.getAll()
@@ -52,6 +55,8 @@ async function create(req, res) {
         CompetitionJobs.createEndJob(model)
     }
 
+    DiscordBridge.dispatchEvent("createCompetition", model)
+
     res.send(model)
 }
 
@@ -66,6 +71,8 @@ async function update(req, res) {
         return res.status(403).send()
     }
 
+    let prevEndDate = model.end_at && moment(model.end_at)
+
     model.columns.forEach(column => {
         if (req.body[column]) {
             model[column] = req.body[column]
@@ -77,6 +84,12 @@ async function update(req, res) {
     await model.update()
     
     if (req.body.end_at) {
+        if (prevEndDate) {
+            DiscordBridge.dispatchEvent("updateEndDate", { competition: model, prevEndDate })
+        } else {
+            DiscordBridge.dispatchEvent("setEndDate", model)
+        }
+
         if (model.state === COMPETITION_STATES["ENDED"]) {
             model.state = COMPETITION_STATES["OPEN"]
             await model.update()
