@@ -1,0 +1,14 @@
+[
+    "create competitions",
+    "update competitions",
+    "delete competitions",
+
+    "create projects",
+    "update projects",
+    "delete projects",
+    "delete any project",
+
+    "vote",
+
+    "*"
+]

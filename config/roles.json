@@ -1,0 +1,26 @@
+{
+    "User": {
+        "permissions": [
+            "create projects",
+            "update projects",
+            "delete projects",
+            "vote"
+        ]
+    },
+
+    "Moderator": {
+        "inherits": ["User"],
+        "permissions": [
+            "create competitions",
+            "update competitions",
+            "delete competitions",
+            "delete any project"
+        ]
+    },
+
+    "Admin": {
+        "permissions": [
+            "*"
+        ]
+    }
+}

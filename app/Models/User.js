@@ -1,11 +1,12 @@
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
+const Role = require("./Role.js")
 
 class User extends Model {
     constructor(values) {
         super({
             table: "users",
-            columns: ["id", "username", "discriminator", "avatar", "created_at", "is_admin"],
+            columns: ["id", "username", "discriminator", "avatar", "created_at", "role_id"],
             defaultValues: {
                 created_at: () => moment()
             },
@@ -15,10 +16,19 @@ class User extends Model {
 
     async init() {
         this.created_at = moment(this.created_at)
-        
-        if (Buffer.isBuffer(this.is_admin)) {
-            this.is_admin = !!this.is_admin[0]
+        this.role = await Role.findBy("id", this.role_id)
+    }
+
+    can(permissionName) {
+        if (!this.role) {
+            throw new Error("User is not initialized")
         }
+
+        if (this.role.permissions[0].name === "*") {
+            return true
+        }
+
+        return this.role.permissions.some(({ name }) => name === permissionName)
     }
 
     getColumns() {
@@ -33,7 +43,8 @@ class User extends Model {
             username: this.username,
             discriminator: this.discriminator,
             avatar: this.avatar,
-            created_at: this.created_at
+            created_at: this.created_at,
+            role: this.role
         }
     }
 }

@@ -28,3 +28,23 @@
 
 * Discord Bot
     * Rollen -> ("Competition Level x")
+
+* Rollen
+    * Benutzer
+        * Projekte erstellen / bearbeiten / löschen
+        * Abstimmen
+
+    * Moderator
+        * Competitions erstellen / bearbeiten / löschen
+        * Alle Projekte löschen
+
+    * Admin
+        * Alles
+
+* Level
+    * Jeder Benutzer startet bei Level 1
+    * Level 1 -> Level 2 : 1000 XP
+    * Nach jedem Level steigen die benötigen XP um 1000
+    * Limit bei 5000XP / Level
+    * Gewonnene Competition: 3000XP
+    * Quests haben individuelle XP Werte
