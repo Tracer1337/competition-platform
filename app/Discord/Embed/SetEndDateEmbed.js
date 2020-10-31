@@ -2,6 +2,8 @@ const BaseEmbed = require("./BaseEmbed.js")
 const { makeURL } = require("../../utils")
 
 class SetEndDateEmbed extends BaseEmbed {
+    static event = "setEndDate"
+
     constructor(competition, strings) {
         super()
 

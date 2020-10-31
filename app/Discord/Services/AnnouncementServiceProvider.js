@@ -9,10 +9,10 @@ class AnnouncementServiceProvider {
         const guilds = await Guild.getAll()
         
         await Promise.all(guilds.map(async (model) => {
-            const guild = this.guilds.cache.get(model.id)
-    
+            const guild = await this.guilds.fetch(model.id)
+            
             if (guild) {
-                guild.announcementChannel = guild.channels.cache.get(model.announcement_channel_id)
+                guild.announcementChannel = await this.channels.fetch(model.announcement_channel_id)
             
                 if (guild.announcementChannel) {
                     await fn.call(this, guild, model)
@@ -27,11 +27,20 @@ class AnnouncementServiceProvider {
         })
     }
 
-    static async sendEmbed(Embed, args) {
-        await AnnouncementServiceProvider.mapGuilds.call(this, (guild, model) => {
+    static async sendEmbed(Embed, ...args) {
+        await AnnouncementServiceProvider.mapGuilds.call(this, async (guild, model) => {
             const strings = AnnouncementServiceProvider.getStrings(model.lang)
-            const embed = new Embed(...[...args, strings])
-            return guild.announcementChannel.send(embed)
+
+            const params = [...args, strings, model.lang]
+            let embed
+
+            if (Embed.makeEmbed) {
+                embed = await Embed.makeEmbed(...params)
+            } else {
+                embed = new Embed(...params)
+            }
+
+            await guild.announcementChannel.send(embed)
         })
     }
 }

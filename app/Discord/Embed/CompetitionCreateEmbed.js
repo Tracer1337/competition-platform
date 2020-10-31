@@ -2,6 +2,8 @@ const BaseEmbed = require("./BaseEmbed.js")
 const { makeURL } = require("../../utils")
 
 class CompetitionCreateEmbed extends BaseEmbed {
+    static event = "createCompetition"
+
     constructor(competition, strings) {
         super()
 

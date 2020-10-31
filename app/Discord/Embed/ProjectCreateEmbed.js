@@ -1,8 +1,16 @@
 const BaseEmbed = require("./BaseEmbed.js")
+const Competition = require("../../Models/Competition.js")
 const { makeURL } = require("../../utils")
 
 class ProjectCreateEmbed extends BaseEmbed {
-    constructor(project, competition, strings) {
+    static event = "createProject"
+
+    static async makeEmbed(project, ...args) {
+        const competition = await Competition.findBy("id", project.competition_id)
+        return new ProjectCreateEmbed({ project, competition }, ...args)
+    }
+
+    constructor({ project, competition }, strings) {
         super()
 
         this.setTitle(`${strings["projects.create.title"]}: ${competition.title}`)

@@ -22,4 +22,8 @@ async function run(args, message) {
     await message.channel.send("This channel is now registered")
 }
 
-module.exports = run
+module.exports = {
+    run,
+    desc: "Sets the channel in which announcements (like new competitions) will be sent. There can only be one per guild.",
+    alias: ["announcement-channel", "announcements"]
+}

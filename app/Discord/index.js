@@ -14,7 +14,9 @@ function run() {
 
         await attachEvents(client)
 
-        client.login(process.env.DISCORD_BOT_TOKEN)
+        await client.login(process.env.DISCORD_BOT_TOKEN)
+        
+        // require("./Bridge.js").dispatchEvent("createProject", (await require("../Models/Project.js").getAll())[0])
 
         resolve()
     })

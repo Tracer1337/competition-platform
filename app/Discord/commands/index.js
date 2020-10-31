@@ -1,12 +1,15 @@
-const path = require("path")
+const CommandServiceProvider = require("../Services/CommandServiceProvider.js")
 
-function run(command, args, message) {
-    try {
-        const method = require(path.join(__dirname, command + ".js"))
-        method(args, message)
-    } catch {
-        message.channel.send("Invalid command")
+const commands = CommandServiceProvider.getCommandsSync()
+
+function run(name, args, message) {
+    const command = commands.find(cmd => cmd.name === name || cmd.alias.includes(name))
+
+    if (!command) {
+        return message.channel.send("Unknown command")
     }
+
+    command.run(args, message)
 }
 
 module.exports = run

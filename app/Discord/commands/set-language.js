@@ -20,4 +20,8 @@ async function run(args, message) {
     await message.channel.send("Changed language successfully")
 }
 
-module.exports = run
+module.exports = {
+    run,
+    desc: "Sets the language in which announcements are sent.",
+    alias: ["language", "lang"]
+}
