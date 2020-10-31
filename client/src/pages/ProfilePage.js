@@ -22,7 +22,9 @@ function ProfilePage() {
 
     return (
         <Layout>
-            <Typography className={classes.spacingBottom}>Logged in as: <Username user={user} notClickable/></Typography>
+            <Typography className={classes.spacingBottom} variant="h6">Logged in as: <Username user={user} notClickable/></Typography>
+            <Typography className={classes.spacingBottom} variant="h6">{user.role.name}</Typography>
+
             <Button variant="contained" onClick={() => dispatch(logout())}>Logout</Button>
         </Layout>
     )

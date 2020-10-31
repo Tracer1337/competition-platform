@@ -10,7 +10,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import Input from "./components/Input.js"
 import FileInput from "./components/FileInput.js"
 import MultiFileInput from "./components/MultiFileInput.js"
-import LoadingButton from "./components/LoadingButton.js"
+import LoadingButton from "../Styled/LoadingButton.js"
 import { deleteImage } from "../../config/api.js"
 
 const useStyles = makeStyles(theme => ({

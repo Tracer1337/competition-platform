@@ -1,6 +1,5 @@
 import React from "react"
 import clsx from "clsx"
-import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { Paper, Typography, Grid, Button, IconButton } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
@@ -8,6 +7,7 @@ import EditIcon from "@material-ui/icons/Edit"
 
 import Avatar from "../User/Avatar.js"
 import Username from "../User/Username.js"
+import Auth from "../User/Auth.js"
 import Image from "./Image.js"
 import VoteButton from "./VoteButton.js"
 import OpenProjectButton from "./OpenProjectButton.js"
@@ -38,9 +38,6 @@ const useStyles = makeStyles(theme => ({
 function Project({ className, data }) {
     const classes = useStyles()
 
-    const isLoggedIn = useSelector(store => store.auth.isLoggedIn)
-    const user = useSelector(store => store.auth.user)
-
     return (
         <Paper className={clsx(className, classes.project)}>
             <Grid container className={classes.spacingBottom}>
@@ -50,13 +47,13 @@ function Project({ className, data }) {
                 </Grid>
 
                 <Grid item xs container justify="flex-end">
-                    { isLoggedIn && data.user.id === user.id && (
+                    <Auth roles={["User", "Moderator"]} userId={data.user.id}>
                         <Link to={"/edit-project/" + data.id}>
                             <IconButton size="small">
                                 <EditIcon />
                             </IconButton>
                         </Link>
-                    ) }
+                    </Auth>
                 </Grid>
             </Grid>
 

@@ -7,7 +7,7 @@ import MDEditor from "@uiw/react-md-editor"
 import { DateTimePicker } from "@material-ui/pickers"
 
 import Input from "./components/Input.js"
-import LoadingButton from "./components/LoadingButton.js"
+import LoadingButton from "../Styled/LoadingButton.js"
 
 const useStyles = makeStyles(theme => ({
     formWrapper: {

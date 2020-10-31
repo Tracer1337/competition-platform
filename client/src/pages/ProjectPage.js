@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useSelector } from "react-redux"
 import { Link, useHistory } from "react-router-dom"
 import { useParams, Redirect } from "react-router-dom"
 import { CircularProgress, Typography, Divider, Grid, Button } from "@material-ui/core"
@@ -8,6 +7,7 @@ import MDEditor from "@uiw/react-md-editor"
 
 import Layout from "../components/Layout/Layout.js"
 import Avatar from "../components/User/Avatar.js"
+import Auth from "../components/User/Auth.js"
 import Username from "../components/User/Username.js"
 import VoteButton from "../components/Project/VoteButton.js"
 import OpenProjectButton from "../components/Project/OpenProjectButton.js"
@@ -53,9 +53,6 @@ function ProjectPage() {
 
     const history = useHistory()
 
-    const isLoggedIn = useSelector(store => store.auth.isLoggedIn)
-    const user = useSelector(store => store.auth.user)
-
     const [isDeleting, setIsDeleting] = useState(false)
 
     const { isLoading, data, error } = useAPIData({
@@ -90,15 +87,17 @@ function ProjectPage() {
         <Layout>
             { isLoading ? <CircularProgress /> : (
                 <>
-                    { isLoggedIn && data.user.id === user.id && (
-                        <Grid container justify="flex-end" className={classes.spacingBottom}>
+                    <Grid container justify="flex-end" className={classes.spacingBottom}>
+                        <Auth roles={["User", "Moderator"]} userId={data.user.id}>
                             <Link to={"/edit-project/" + id}>
                                 <Button variant="contained" className={classes.spacingRight}>Edit Project</Button>
                             </Link>
+                        </Auth>
 
+                        <Auth shouldRender={user => user.role.name === "Moderator" || data.user.id === user.id}>
                             <ErrorLoadingButton onClick={handleDelete} isLoading={isDeleting}>Delete Project</ErrorLoadingButton>
-                        </Grid>
-                    ) }
+                        </Auth>
+                    </Grid>
 
                     <Grid container>
                         <Grid item xs container alignItems="center">

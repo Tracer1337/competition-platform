@@ -2,7 +2,7 @@ import React from "react"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core"
 import { red } from "@material-ui/core/colors"
 
-import LoadingButton from "../Forms/components/LoadingButton.js"
+import LoadingButton from "./LoadingButton.js"
 
 const redTheme = createMuiTheme({
     palette: {
