@@ -41,6 +41,10 @@ async function getSubmissions(req, res) {
 }
 
 async function create(req, res) {
+    if (!req.user.can("create competitions")) {
+        return res.status(403).end()
+    }
+
     const model = new Competition({
         ...req.body,
         user_id: req.user.id
@@ -61,6 +65,10 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
+    if (!req.user.can("update competitions")) {
+        return res.status(403).end()
+    }
+
     const model = await Competition.findBy("id", req.params.id)
 
     if (!model) {
@@ -68,7 +76,7 @@ async function update(req, res) {
     }
 
     if (model.user_id !== req.user.id) {
-        return res.status(403).send()
+        return res.status(403).end()
     }
 
     let prevEndDate = model.end_at && moment(model.end_at)
@@ -102,6 +110,10 @@ async function update(req, res) {
 }
 
 async function remove(req, res) {
+    if (!req.user.can("delete competitions")) {
+        return res.status(403).end()
+    }
+
     const model = await Competition.findBy("id", req.params.id)
 
     if (!model) {

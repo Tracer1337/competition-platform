@@ -35,6 +35,10 @@ async function getOne(req, res) {
 }
 
 async function create(req, res) {
+    if (!req.user.can("create projects")) {
+        return res.status(403).end()
+    }
+
     const competition = await Competition.findBy("id", req.body.competition_id)
 
     if (!competition) {
@@ -89,6 +93,10 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
+    if (!req.user.can("update projects")) {
+        return res.status(403).end()
+    }
+
     const model = await Project.findBy("id", req.params.id)
 
     if (!model) {
@@ -145,13 +153,17 @@ async function update(req, res) {
 }
 
 async function remove(req, res) {
+    if (!req.user.can("delete projects") && !req.user.can("delete any project")) {
+        return res.status(403).end()
+    }
+
     const model = await Project.findBy("id", req.params.id)
 
     if (!model) {
         return res.status(404).end()
     }
 
-    if (model.user_id !== req.user.id) {
+    if (model.user_id !== req.user.id && !req.user.can("delete any project")) {
         return res.status(403).send()
     }
 
@@ -161,6 +173,10 @@ async function remove(req, res) {
 }
 
 async function removeImage(req, res) {
+    if (!req.user.can("update projects")) {
+        return res.status(403).end()
+    }
+
     const model = await Image.findBy("id", req.params.id)
 
     if (!model) {
@@ -177,6 +193,10 @@ async function removeImage(req, res) {
 }
 
 async function vote(req, res) {
+    if (!req.user.can("vote")) {
+        return res.status(403).end()
+    }
+
     const project = await Project.findBy("id", req.params.id)
 
     if (!project) {
@@ -194,6 +214,10 @@ async function vote(req, res) {
 }
 
 async function deleteVote(req, res) {
+    if (!req.user.can("vote")) {
+        return res.status(403).end()
+    }
+
     const vote = (await Vote.where(`project_id = '${req.params.id}' AND user_id = '${req.user.id}'`))[0]
     
     if (!vote) {
