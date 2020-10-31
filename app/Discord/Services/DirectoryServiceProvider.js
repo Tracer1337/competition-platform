@@ -2,9 +2,10 @@ const fs = require("fs")
 const path = require("path")
 
 const COMMANDS_DIR = path.join(__dirname, "..", "commands")
+const LANGUAGES_DIR = path.join(__dirname, "..", "Lang")
 
-class CommandServiceProvider {
-    static parseDir(dir) {
+class DirectoryServiceProvider {
+    static parseCommandsDir(dir) {
         return dir.filter(filename => filename !== "index.js").map(filename => {
             const command = require(path.join(COMMANDS_DIR, filename))
             command.name = filename.replace(".js", "")
@@ -14,12 +15,16 @@ class CommandServiceProvider {
 
     static async getCommands() {
         const dir = await fs.promises.readdir(COMMANDS_DIR)
-        return CommandServiceProvider.parseDir(dir)
+        return DirectoryServiceProvider.parseCommandsDir(dir)
     }
 
     static getCommandsSync() {
-        return CommandServiceProvider.parseDir(fs.readdirSync(COMMANDS_DIR))
+        return DirectoryServiceProvider.parseCommandsDir(fs.readdirSync(COMMANDS_DIR))
+    }
+
+    static getLanguagesSync() {
+        return fs.readdirSync(LANGUAGES_DIR).map(lang => lang.replace(".json", ""))
     }
 }
 
-module.exports = CommandServiceProvider
+module.exports = DirectoryServiceProvider

@@ -24,6 +24,7 @@ async function run(args, message) {
 
 module.exports = {
     run,
-    desc: "Sets the channel in which announcements (like new competitions) will be sent. There can only be one per guild.",
+    desc: "Sets the channel in which announcements (like new competitions) will be sent. There can only be one announcement channel per guild.",
+    usage: "set-announcement-channel",
     alias: ["announcement-channel", "announcements"]
 }

@@ -92,6 +92,13 @@ function makeURL(path) {
     return `${process.env.PROTOCOL}://${process.env.HOST}${process.env.PUBLIC_PORT ? ":" + process.env.PUBLIC_PORT : ""}${path}`
 }
 
+/**
+ * Wrap a string into a markdown codeblock
+ */
+function makeCodeblock(str) {
+    return "```\n" + str + "```"
+}
+
 module.exports = {
     queryAsync,
     quotedList,
@@ -102,5 +109,6 @@ module.exports = {
     removeExtension,
     hasExtension,
     paginate,
-    makeURL
+    makeURL,
+    makeCodeblock
 }

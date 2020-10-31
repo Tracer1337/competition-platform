@@ -1,4 +1,5 @@
 const Guild = require("../../Models/Guild.js")
+const DirectoryServiceProvider = require("../Services/DirectoryServiceProvider.js")
 
 async function run(args, message) {
     const model = await Guild.findBy("id", message.guild.id)
@@ -20,8 +21,11 @@ async function run(args, message) {
     await message.channel.send("Changed language successfully")
 }
 
+const languages = DirectoryServiceProvider.getLanguagesSync()
+
 module.exports = {
     run,
-    desc: "Sets the language in which announcements are sent.",
+    desc: "Sets the language in which announcements are sent. The following languages are available: *" + languages.join(", ") + "*.",
+    usage: "set-language <language>",
     alias: ["language", "lang"]
 }

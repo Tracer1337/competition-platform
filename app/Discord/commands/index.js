@@ -1,6 +1,6 @@
-const CommandServiceProvider = require("../Services/CommandServiceProvider.js")
+const DirectoryServiceProvider = require("../Services/DirectoryServiceProvider.js")
 
-const commands = CommandServiceProvider.getCommandsSync()
+const commands = DirectoryServiceProvider.getCommandsSync()
 
 function run(name, args, message) {
     const command = commands.find(cmd => cmd.name === name || cmd.alias.includes(name))
