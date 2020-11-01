@@ -25,7 +25,7 @@ function LoginWithDiscord({ onSuccess }) {
     useEffect(() => {
         const handleMessage = (event) => {
             if (event.data?.source === "oauth" && popup.current) {
-                // popup.current.close()
+                popup.current.close()
                 
                 if (event.data.status === "ok") {
                     formatAPI(USER)({ data: event.data.payload.user })
