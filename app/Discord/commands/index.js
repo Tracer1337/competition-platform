@@ -9,6 +9,15 @@ function run(name, args, message) {
         return message.channel.send("Unknown command")
     }
 
+    if (command.permissions) {
+        for (let permission of command.permissions) {
+            if (!message.member.hasPermission(permission)) {
+                const requiredPerms = command.permissions.map(perm => `'${perm}'`).join(", ")
+                return message.channel.send(`Insufficient permissions. This command requires: ${requiredPerms}.`)
+            }
+        }
+    }
+
     command.run(args, message)
 }
 

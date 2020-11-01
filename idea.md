@@ -28,6 +28,7 @@
 
 * Discord Bot
     * Rollen -> ("Competition Level x")
+    * Berechtigungs-Check bei Commands (z.B. set-language)
 
 * Rollen
     * Benutzer

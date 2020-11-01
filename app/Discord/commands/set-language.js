@@ -27,5 +27,6 @@ module.exports = {
     run,
     desc: "Sets the language in which announcements are sent. The following languages are available: *" + languages.join(", ") + "*.",
     usage: "set-language <language>",
-    alias: ["language", "lang"]
+    alias: ["language", "lang"],
+    permissions: ["MANAGE_GUILD"]
 }

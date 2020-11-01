@@ -11,6 +11,8 @@ class HelpCommandEmbed extends BaseEmbed {
 
         this.addField("Usage", makeCodeblock(process.env.DISCORD_BOT_PREFIX + command.usage))
 
+        this.addField("Required Permissions", makeCodeblock(command.permissions.join("\n")))
+
         this.addField("Aliases", makeCodeblock(command.alias.join("\n")))
     }
 }

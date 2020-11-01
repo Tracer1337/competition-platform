@@ -26,5 +26,6 @@ module.exports = {
     run,
     desc: "Sets the channel in which announcements (like new competitions) will be sent. There can only be one announcement channel per guild.",
     usage: "set-announcement-channel",
-    alias: ["announcement-channel", "announcements"]
+    alias: ["announcement-channel", "announcements"],
+    permissions: ["MANAGE_CHANNELS"]
 }
