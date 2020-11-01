@@ -20,17 +20,16 @@ class RoleServiceProvider {
                 name: name,
                 color: color
             },
-            reason: "Automated level role generation"
+            reason: "Automated role generation"
         })
     }
 
     static async assignRole(guild, user, role) {
         const guildMember = await guild.members.fetch(user.id)
-        await guildMember.roles.add(role, "Automated level role assignment")
+        await guildMember.roles.add(role, "Automated role assignment")
     }
 
     static async removeRoleFromUser(guild, roleName, user) {
-        console.log("Remove role", roleName)
         const role = await RoleServiceProvider.getRole(guild, roleName)
 
         const guildMember = await guild.members.fetch(user.id)
@@ -38,7 +37,6 @@ class RoleServiceProvider {
     }
 
     static async createAssignRole(guild, { name, color }, user) {
-        console.log("Assign role", name)
         let role = await RoleServiceProvider.getRole(guild, name)
 
         if (!role) {

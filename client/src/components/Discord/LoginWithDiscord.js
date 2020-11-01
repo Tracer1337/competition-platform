@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
+import { Button } from "@material-ui/core"
 import { useDispatch } from "react-redux"
 
-import LoadingButton from "../Styled/LoadingButton.js"
 import { createListeners } from "../../utils"
 import { DISCORD_OAUTH_URL } from "../../config/constants.js"
+import formatAPI, { USER } from "../../config/formatAPI.js"
 import { login } from "../../store/actions.js"
-import { getProfile, setTokenHeader } from "../../config/api.js"
 
 function LoginWithDiscord({ onSuccess }) {
     const dispatch = useDispatch()
 
     const popup = useRef()
-
-    const [isLoading, setIsLoading] = useState(false)
     
     const handleClick = () => {
         const width = 1000
@@ -30,19 +28,14 @@ function LoginWithDiscord({ onSuccess }) {
                 popup.current.close()
                 
                 if (event.data.status === "ok") {
-                    setIsLoading(true)
+                    formatAPI(USER)({ data: event.data.payload.user })
+                    
+                    dispatch(login({
+                        user: event.data.payload.user,
+                        token: event.data.payload.token
+                    }))
 
-                    setTokenHeader(event.data.payload.token)
-
-                    getProfile().then(res => {
-                        dispatch(login({
-                            user: res.data,
-                            token: event.data.payload.token
-                        }))
-                        
-                        setIsLoading(false)
-                        onSuccess()
-                    })
+                    onSuccess()
                 }
             }
         }
@@ -53,7 +46,7 @@ function LoginWithDiscord({ onSuccess }) {
     })
     
     return (
-        <LoadingButton isLoading={isLoading} variant="contained" onClick={handleClick}>Login With Discord</LoadingButton>
+        <Button variant="contained" onClick={handleClick}>Login With Discord</Button>
     )
 }
 

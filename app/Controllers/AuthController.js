@@ -1,5 +1,6 @@
 const DiscordServiceProvider = require("../Services/DiscordServiceProvider.js")
 const User = require("../Models/User.js")
+const DiscordBridge = require("../Discord/Bridge.js")
 
 async function oauthDiscord(req, res) {
     try {
@@ -16,8 +17,12 @@ async function oauthDiscord(req, res) {
             await user.store()
         }
 
-        res.render("oauth-receiver", { error: false, data: { token, user: userData } })
+        DiscordBridge.dispatchEvent("loginUser", user)
+
+        res.render("oauth-receiver", { error: false, data: { token, user } })
     } catch (error) {
+        console.error(error)
+
         res.render("oauth-receiver", { error: true })
     }
 }
