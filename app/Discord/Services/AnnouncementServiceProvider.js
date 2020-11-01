@@ -1,34 +1,18 @@
-const Guild = require("../../Models/Guild.js")
+const { mapGuilds } = require("../utils")
 
 class AnnouncementServiceProvider {
     static getStrings(lang) {
         return require(`../Lang/${lang}.json`)
     }
-
-    static async mapGuilds(fn) {
-        const guilds = await Guild.getAll()
-        
-        await Promise.all(guilds.map(async (model) => {
-            const guild = await this.guilds.fetch(model.id)
-            
-            if (guild) {
-                guild.announcementChannel = await this.channels.fetch(model.announcement_channel_id)
-            
-                if (guild.announcementChannel) {
-                    await fn.call(this, guild, model)
-                }
-            }
-        }))    
-    }
     
     static async makeAnnouncement(message) {
-        await AnnouncementServiceProvider.mapGuilds.call(this, guild => {
+        await mapGuilds.call(this, guild => {
             return guild.announcementChannel.send(message)
         })
     }
 
     static async sendEmbed(Embed, ...args) {
-        await AnnouncementServiceProvider.mapGuilds.call(this, async (guild, model) => {
+        await mapGuilds.call(this, async (guild, model) => {
             const strings = AnnouncementServiceProvider.getStrings(model.lang)
 
             const params = [...args, strings, model.lang]

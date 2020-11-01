@@ -1,5 +1,6 @@
 const DiscordServiceProvider = require("../Services/DiscordServiceProvider.js")
 const User = require("../Models/User.js")
+const Role = require("../Models/Role.js")
 const DiscordBridge = require("../Discord/Bridge.js")
 
 async function oauthDiscord(req, res) {
@@ -12,17 +13,22 @@ async function oauthDiscord(req, res) {
         let user = await User.findBy("id", userData.id)
 
         if (!user) {
-            user = new User(userData)
+            const role = await Role.findBy("name", "User")
 
+            user = new User({
+                ...userData,
+                role_id: role.id
+            })
+
+            await user.init()
+            
             await user.store()
+            
+            DiscordBridge.dispatchEvent("registerUser", user)
         }
-
-        DiscordBridge.dispatchEvent("loginUser", user)
 
         res.render("oauth-receiver", { error: false, data: { token, user } })
     } catch (error) {
-        console.error(error)
-
         res.render("oauth-receiver", { error: true })
     }
 }

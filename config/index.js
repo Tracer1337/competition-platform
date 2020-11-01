@@ -22,6 +22,7 @@ module.exports = {
         
         competitionWinnerPoints: 3000,
         
-        roleName: "Level {}"
+        roleName: "Level {}",
+        roleColor: "WHITE"
     }
 }

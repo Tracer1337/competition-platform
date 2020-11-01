@@ -1,6 +1,7 @@
 const Guild = require("../../Models/Guild.js")
 const RoleServiceProvider = require("../Services/RoleServiceProvider.js")
 const { makeLevelRoleName } = require("../utils")
+const config = require("../../../config")
 
 async function run({ user, prevLevel, newLevel }) {
     const models = await Guild.getAll()
@@ -15,7 +16,7 @@ async function run({ user, prevLevel, newLevel }) {
         
         await RoleServiceProvider.createAssignRole(guild, {
             name: newRoleName,
-            color: "WHITE"
+            color: config.level.roleColor
         }, user)
     }))
 }
