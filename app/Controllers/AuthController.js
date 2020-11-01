@@ -29,6 +29,8 @@ async function oauthDiscord(req, res) {
 
         res.render("oauth-receiver", { error: false, data: { token, user } })
     } catch (error) {
+        console.error(error)
+
         res.render("oauth-receiver", { error: true })
     }
 }
