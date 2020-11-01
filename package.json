@@ -12,7 +12,8 @@
     "seed": "node ./scripts/seed.js",
     "deploy": "node ./scripts/deploy.js -b",
     "jwt-secret": "node ./scripts/jwt-secret.js",
-    "create-bucket": "node ./scripts/create-bucket.js"
+    "create-bucket": "node ./scripts/create-bucket.js",
+    "seed-permissions": "node ./scripts/seed-permissions.js"
   },
   "keywords": [],
   "author": "",
