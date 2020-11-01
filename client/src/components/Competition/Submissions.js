@@ -24,10 +24,6 @@ function Submissions({ competitionId }) {
         return <CircularProgress/>
     }
 
-    if (!data) {
-        return null
-    }
-
     return data.map(project => (
         <Project
             key={project.id}

@@ -42,7 +42,7 @@ function useAPIData(props) {
 
     const method = API[props.method].bind(null, props.data)
 
-    const [isLoading, setIsLoading] = useState(!(props.defaultValue || cache.get(key) || !props.initialRequest))
+    const [isLoading, setIsLoading] = useState(!(props.defaultValue || (props.useCache && cache.get(key)) || !props.initialRequest))
     const [error, setError] = useState()
 
     const [data, setData] = useReducer((state, newValue) => {

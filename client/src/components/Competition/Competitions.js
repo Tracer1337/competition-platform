@@ -19,7 +19,7 @@ function Competitions() {
         useCache: false
     })
 
-    if (isLoading || !data) {
+    if (isLoading) {
         return <CircularProgress/>
     }
 

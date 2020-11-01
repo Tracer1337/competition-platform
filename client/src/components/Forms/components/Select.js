@@ -2,7 +2,6 @@ import React from "react"
 import clsx from "clsx"
 import { Select as MuiSelect, MenuItem, FormControl, InputLabel } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import { useFormContext, Controller } from "react-hook-form"
 
 const useStyles = makeStyles(theme => ({
     select: {
@@ -10,28 +9,20 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-function Select({ label, name, options, className }) {
+function Select({ label, options, className, value, onChange }) {
     const classes = useStyles()
-    
-    const { control } = useFormContext()
 
     return (
         <FormControl className={clsx(className, classes.select)}>
             <InputLabel>{ label }</InputLabel>
 
-            <Controller
-                name={name}
-                control={control}
-                as={(
-                    <MuiSelect>
-                        { options.map(({ name, value }) => (
-                            <MenuItem value={value} key={value}>
-                                { name}
-                            </MenuItem>
-                        ))}
-                    </MuiSelect>
-                )}
-            />
+            <MuiSelect value={value} onChange={onChange}>
+                {options.map(({ name, value }) => (
+                    <MenuItem value={value} key={value}>
+                        { name}
+                    </MenuItem>
+                ))}
+            </MuiSelect>
         </FormControl>
     )
 }

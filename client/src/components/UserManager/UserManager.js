@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/core/styles"
 
 import useAPIData from "../../utils/useAPIData.js"
 import Avatar from "../User/Avatar.js"
-import { opener } from "../ComponentOpener/ComponentOpener.js"
+import Username from "../User/Username.js"
+import RoleSelect from "./RoleSelect.js"
 
 const useStyles = makeStyles(theme => ({
     userManager: {
@@ -14,25 +15,26 @@ const useStyles = makeStyles(theme => ({
 
 const columns = [
     {
+        field: "avatar",
+        headerName: "Avatar",
+        renderCell: (params) => <Avatar user={params.data}/>
+    },
+    {
+        field: "fullUsername",
+        headerName: "Username",
+        width: 150,
+        renderCell: (params) => <Username user={params.data}/>
+    },
+    {
         field: "id",
         headerName: "ID",
         width: 200
     },
     {
-        field: "username",
-        headerName: "Username"
-    },
-    {
-        field: "discriminator",
-        headerName: "Discriminator"
-    },
-    {
-        field: "avatar",
-        renderCell: (params) => <Avatar user={params.data}/>
-    },
-    {
-        field: "role",
-        headerName: "Role"
+        field: "role_name",
+        headerName: "Role",
+        width: 150,
+        renderCell: (params) => <RoleSelect user={params.data}/>
     },
     {
         field: "created_at",
@@ -44,32 +46,25 @@ const columns = [
 function UserManager() {
     const classes = useStyles()
 
-    const { isLoading, data, reload } = useAPIData("getAllUsers")
+    const { isLoading, data } = useAPIData({
+        method: "getAllUsers",
+        useCache: false
+    })
 
-    const handleCellClick = (event) => {
-        const user = data.find(user => user.id === event.data.id)
-        const dialog = opener.openDialog("UpdateUser", { user })
-
-        dialog.addEventListener("close", (shouldReload) => {
-            if (shouldReload === true) {
-                reload()
-            }
-        })
-    }
+    const { isLoading: isLoadingRoles } = useAPIData("getAllRoles")
 
     const rows = isLoading ? [] : data.map(user => ({
         ...user,
-        role: user.role.name,
+        role_name: user.role.name,
         created_at: user.created_at.format("DD.MM.YYYY HH:mm")
     }))
 
     return (
         <div className={classes.userManager}>
             <DataGrid
-                loading={isLoading}
+                loading={isLoading || isLoadingRoles}
                 columns={columns}
                 rows={rows}
-                onCellClick={handleCellClick}
             />
         </div>
     )

@@ -20,10 +20,6 @@ function EditProjectPage() {
         return <Layout><CircularProgress /></Layout>
     }
 
-    if (!data) {
-        return <Layout/>
-    }
-
     return (
         <Layout>
             <ProjectForm

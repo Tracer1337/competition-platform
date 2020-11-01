@@ -27,6 +27,8 @@ async function update(req, res) {
 
     await model.update()
 
+    await model.init()
+
     res.send(model)
 }
 

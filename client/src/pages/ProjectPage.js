@@ -79,10 +79,6 @@ function ProjectPage() {
         return <Redirect to="/404"/>
     }
 
-    if (!data) {
-        return <Layout />
-    }
-
     return ( 
         <Layout>
             { isLoading ? <CircularProgress /> : (
