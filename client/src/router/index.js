@@ -12,6 +12,7 @@ import CreateCompetitionPage from "../pages/CreateCompetitionPage.js"
 import EditCompetitionPage from "../pages/EditCompetitionPage.js"
 import CreateProjectPage from "../pages/CreateProjectPage.js"
 import EditProjectPage from "../pages/EditProjectPage.js"
+import AdminPage from "../pages/AdminPage.js"
 
 function Router() {
     return (
@@ -39,6 +40,10 @@ function Router() {
                 
                 <ProtectedRoute path="/edit-project/:id">
                     <EditProjectPage/>
+                </ProtectedRoute>
+
+                <ProtectedRoute path="/admin">
+                    <AdminPage/>
                 </ProtectedRoute>
 
                 <Route path="/project/:id">

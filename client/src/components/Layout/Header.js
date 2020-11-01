@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles"
 
 import DarkModeSwitch from "./DarkModeSwitch.js"
 import Avatar from "../User/Avatar.js"
+import Auth from "../User/Auth.js"
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -28,10 +29,20 @@ function Header() {
                     </Link>
                 </Grid>
 
-                <Grid item container justify="center">
-                    <Link to="/">
-                        <Typography variant="subtitle1">Competitions</Typography>
-                    </Link>
+                <Grid item container justify="center" spacing={2}>
+                    <Grid item>
+                        <Link to="/">
+                            <Typography variant="subtitle1">Competitions</Typography>
+                        </Link>
+                    </Grid>
+
+                    <Auth roles={["Admin"]}>
+                        <Grid item>
+                            <Link to="/admin">
+                                <Typography variant="subtitle1">Admin Panel</Typography>
+                            </Link>
+                        </Grid>
+                    </Auth>
                 </Grid>
             </Grid>
 

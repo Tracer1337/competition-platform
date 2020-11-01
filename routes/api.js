@@ -9,6 +9,8 @@ const AuthController = require("../app/Controllers/AuthController.js")
 const CompetitionController = require("../app/Controllers/CompetitionController.js")
 const ProjectController = require("../app/Controllers/ProjectController.js")
 const StorageController = require("../app/Controllers/StorageController.js")
+const UserController = require("../app/Controllers/UserController.js")
+const RolesController = require("../app/Controllers/RolesController.js")
 
 const config = require("../config")
 
@@ -37,6 +39,12 @@ router.delete("/projects/images/:id", ProtectMiddleware, ProjectController.remov
 router.delete("/projects/:id", ProtectMiddleware, ProjectController.remove)
 router.post("/projects/vote/:id", ProtectMiddleware, ProjectController.vote)
 router.delete("/projects/vote/:id", ProtectMiddleware, ProjectController.deleteVote)
+
+router.get("/users", ProtectMiddleware, UserController.getAll)
+router.post("/users/:id", ProtectMiddleware, UserController.update)
+router.delete("/users/:id", ProtectMiddleware, UserController.remove)
+
+router.get("/roles", ProtectMiddleware, RolesController.getAll)
 
 router.get("/storage/:filename", StorageController.getFile)
 

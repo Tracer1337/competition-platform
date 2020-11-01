@@ -1,8 +1,9 @@
 const { v4: uuid } = require("uuid")
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
-const User = require("../Models/User.js")
-const Project = require("../Models/Project.js")
+
+let Project
+let User
 
 class Competition extends Model {
     constructor(values) {
@@ -17,6 +18,9 @@ class Competition extends Model {
         })
 
         this.hasSubmitted = null
+
+        Project = require("../Models/Project.js")
+        User = require("../Models/User.js")
     }
 
     async init() {

@@ -1,12 +1,12 @@
 const { v4: uuid } = require("uuid")
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
-const User = require("../Models/User.js")
 const Image = require("./Image.js")
 const Vote = require("./Vote.js")
 const StorageFacade = require("../Facades/StorageFacade.js")
 
 let Competition
+let User
 
 class Project extends Model {
     constructor(values) {
@@ -22,6 +22,7 @@ class Project extends Model {
 
         this.hasVoted = null
 
+        User = require("../Models/User.js")
         Competition = require("./Competition.js")
     }
 

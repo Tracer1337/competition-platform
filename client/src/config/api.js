@@ -4,6 +4,7 @@ import format, {
     COMPETITION,
     COMPETITIONS,
     USER,
+    USERS,
     PROJECT,
     PROJECTS
 } from "./formatAPI.js"
@@ -36,5 +37,11 @@ export const deleteProject = (id) => axios.delete(url("/projects/" + id))
 export const deleteImage = (id) => axios.delete(url("/projects/images/" + id))
 export const voteForProject = (id) => axios.post(url("/projects/vote/" + id))
 export const removeVoteFromProject = (id) => axios.delete(url("/projects/vote/" + id))
+
+export const getAllUsers = () => axios.get(url("/users")).then(format(USERS))
+export const editUser = (id, body) => axios.post(url("/users/" + id), body)
+export const deleteUser = (id) => axios.delete(url("/users/" + id))
+
+export const getAllRoles = () => axios.get(url("/roles"))
 
 export const getFileFromStorage = (filename) => axios.get(url("/storage/" + filename), { responseType: "blob" })

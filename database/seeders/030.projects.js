@@ -13,22 +13,17 @@ module.exports = {
     table: "projects",
 
     run: async () => {
-        const { id: user_id } = (await User.getAll())[0]
+        const users = await User.getAll()
         const { id: competition_id } = (await Competition.getAll())[0]
 
-        const data = [
-            ["First project", "https://www.npmjs.com/package/cron", "2020-10-27T13:35:13+01:00"],
-            ["Second project", "https://www.npmjs.com/package/cron", "2020-10-27T13:40:13+01:00"],
-            ["Third project", "https://www.npmjs.com/package/cron", "2020-10-27T13:45:13+01:00"],
-            ["Fourth project", "https://www.npmjs.com/package/cron", "2020-10-27T13:50:13+01:00"]
-        ]
+        const [description, project_url, created_at] = ["My Project", "https://www.npmjs.com/package/cron", "2020-10-27T13:35:13+01:00"]
 
-        await Promise.all(data.map(async ([description, project_url, created_at]) => {
+        await Promise.all(users.map(async user => {
             const filename = randomFileName() + getFileExtension(PROJECT_FILE)
 
             await StorageFacade.uploadFileLocal(PROJECT_FILE, filename)
 
-            const model = new Project({ user_id, competition_id, description, filename, project_url, created_at })
+            const model = new Project({ user_id: user.id, competition_id, description, filename, project_url, created_at })
 
             await model.init()
 

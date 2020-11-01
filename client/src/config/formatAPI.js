@@ -4,6 +4,7 @@ import { DISCORD_CDN_BASE_URL, API_BASE_URL } from "./constants.js"
 export const COMPETITION = "COMPETITION"
 export const COMPETITIONS = "COMPETITIONS"
 export const USER = "USER"
+export const USERS = "USERS"
 export const PROJECT = "PROJECT"
 export const PROJECTS = "PROJECTS"
 
@@ -28,6 +29,7 @@ function formatCompetition(data) {
 function formatUser(data) {
     data.fullUsername = `${data.username}#${data.discriminator}`
     data.avatar_url = `${DISCORD_CDN_BASE_URL}/avatars/${data.id}/${data.avatar}`
+    data.created_at = moment(data.created_at)
 }
 
 function formatProject(data) {
@@ -52,6 +54,8 @@ export default function format(type) {
         fn = data => data.data.map(formatCompetition)
     } else if (type === USER) {
         fn = data => formatUser(data.data)
+    } else if (type === USERS) {
+        fn = data => data.data.map(formatUser)
     } else if (type === PROJECT) {
         fn = data => formatProject(data.data)
     } else if (type === PROJECTS) {

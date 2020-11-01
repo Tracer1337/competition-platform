@@ -46,7 +46,7 @@ function ComponentOpener() {
 
         const removeListeners = components.map(component => createListeners(component, [
             ["update", update],
-            ["close", () => close(component)]
+            ["close", () => requestAnimationFrame(() => close(component))]
         ]))
 
         return () => removeListeners.forEach(fn => fn())

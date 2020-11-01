@@ -114,11 +114,7 @@ async function update(req, res) {
         return res.status(400).send({ error: "Too many images" })
     }
 
-    model.columns.forEach(column => {
-        if (req.body[column]) {
-            model[column] = req.body[column]
-        }
-    })
+    model.assign(req.body)
 
     if (req.files.file) {
         await StorageFacade.deleteFileLocal(model.filename)

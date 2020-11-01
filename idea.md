@@ -41,6 +41,10 @@
     * Admin
         * Alles
 
+* Admin Panel
+    * Liste aller Benutzer
+    * Rollen ändern
+
 * Level
     * Jeder Benutzer startet bei Level 1
     * Level 1 -> Level 2 : 1000 XP

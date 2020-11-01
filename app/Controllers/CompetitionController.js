@@ -81,11 +81,7 @@ async function update(req, res) {
 
     let prevEndDate = model.end_at && moment(model.end_at)
 
-    model.columns.forEach(column => {
-        if (req.body[column]) {
-            model[column] = req.body[column]
-        }
-    })
+    model.assign(req.body)
 
     await model.init()
     

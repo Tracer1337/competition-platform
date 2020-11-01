@@ -1,5 +1,6 @@
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
+const Project = require("./Project.js")
 const Role = require("./Role.js")
 
 class User extends Model {
@@ -17,6 +18,14 @@ class User extends Model {
     async init() {
         this.created_at = moment(this.created_at)
         this.role = await Role.findBy("id", this.role_id)
+    }
+
+    async delete() {
+        const projects = await Project.findAllBy("user_id", this.id)
+
+        await Promise.all(projects.map(model => model.delete()))
+
+        return super.delete()
     }
 
     can(permissionName) {
