@@ -8,17 +8,6 @@ const ROOT_DIR = path.join(__dirname, "..")
 const rootRouter = express.Router()
 
 /**
- * Serve static views (name.static.pug)
- */
-fs.readdirSync(path.join(ROOT_DIR, "views", "static")).forEach(filename => {
-    const route = filename.replace(".pug", "")
-
-    rootRouter.get("/" + route, (req, res) => {
-        res.render("static/" + route)
-    })
-})
-
-/**
  * Create routes from files in current directory
  */
 const routes = fs.readdirSync(__dirname)
