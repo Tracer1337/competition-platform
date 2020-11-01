@@ -13,5 +13,15 @@ module.exports = {
         api: {
             basename: "https://discord.com/api"
         }
+    },
+
+    level: {
+        firstLevelPointsRequired: 1000,
+        maxPointsRequired: 5000,
+        pointsIncrement: 1000,
+        
+        competitionWinnerPoints: 3000,
+        
+        roleName: "Level {}"
     }
 }

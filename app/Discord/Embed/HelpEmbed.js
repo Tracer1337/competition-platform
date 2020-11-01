@@ -1,5 +1,5 @@
 const BaseEmbed = require("./BaseEmbed.js")
-const { makeCodeblock } = require("../../utils")
+const { makeCodeblock } = require("../utils")
 
 class HelpEmbed extends BaseEmbed {
     constructor(commands) {

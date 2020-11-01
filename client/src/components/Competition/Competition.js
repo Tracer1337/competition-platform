@@ -65,7 +65,7 @@ function Competition({ data, className }) {
 
             {hasEnded && (
                 data.winner_projects.length ? data.winner_projects.map(project => (
-                    <Winner data={project} className={classes.winner}/>
+                    <Winner data={project} className={classes.winner} key={project.id}/>
                 )) : (
                     <Typography variant="h6">No Winner</Typography>
                 )

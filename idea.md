@@ -23,7 +23,7 @@
 * Quests
     * Immer verfügbar
     * Benutzer können jederzeit einreichen
-    * Benutzer mit spezifischen Level können eingereichte Projekte bewerten
+    * Benutzer mit spezifischen Level können eingereichte Quests bewerten
     * Geschaffte Quest -> Levelaufstieg
 
 * Discord Bot
@@ -49,7 +49,7 @@
 * Level
     * Jeder Benutzer startet bei Level 1
     * Level 1 -> Level 2 : 1000 XP
-    * Nach jedem Level steigen die benötigen XP um 1000
+    * Nach jedem Level steigen die benötigten XP um 1000
     * Limit bei 5000XP / Level
     * Gewonnene Competition: 3000XP
-    * Quests haben individuelle XP Werte
+    * Quests -> individuelle XP Werte

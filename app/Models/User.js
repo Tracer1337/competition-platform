@@ -5,7 +5,7 @@ class User extends Model {
     constructor(values) {
         super({
             table: "users",
-            columns: ["id", "username", "discriminator", "avatar", "created_at", "role_id"],
+            columns: ["id", "username", "discriminator", "avatar", "created_at", "role_id", "points"],
             defaultValues: {
                 created_at: () => moment()
             },
@@ -51,7 +51,8 @@ class User extends Model {
             discriminator: this.discriminator,
             avatar: this.avatar,
             created_at: this.created_at,
-            role: this.role
+            role: this.role,
+            points: this.points
         }
     }
 }

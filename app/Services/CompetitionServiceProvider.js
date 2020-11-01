@@ -2,6 +2,7 @@ const { queryAsync } = require("../utils/index.js")
 const config = require("../../config")
 const { COMPETITION_STATES } = require("../../config/constants.js")
 const DiscordBridge = require("../Discord/Bridge.js")
+const LevelServiceProvider = require("./LevelServiceProvider.js")
 
 /**
  * A user can create a project if he has not created one yet
@@ -39,10 +40,13 @@ async function canVoteForProject(user, project) {
 
 async function endCompetition(id) {
     const model = await Competition.findBy("id", id)
+    
+    console.log("Competition ended: ", model.title)
 
     model.state = COMPETITION_STATES["ENDED"]
 
     const projects = await Project.findAllBy("competition_id", id)
+    const winnerUsers = []
 
     if (projects.length > 0) {
         let mostVotes = [projects[0]]
@@ -58,6 +62,8 @@ async function endCompetition(id) {
         }
     
         model.winner_project_ids = mostVotes.map(project => project.id)
+
+        mostVotes.map(project => winnerUsers.push(project.user))
     }
 
     await model.init()
@@ -65,6 +71,10 @@ async function endCompetition(id) {
     await model.update()
 
     DiscordBridge.dispatchEvent("endCompetition", model)
+    
+    await Promise.all(winnerUsers.map(user => {
+        return LevelServiceProvider.addPoints(user, config.level.competitionWinnerPoints)
+    }))
 }
 
 module.exports = { canCreateProject, canVoteForProject, endCompetition }
