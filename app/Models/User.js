@@ -1,7 +1,5 @@
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
-const Project = require("./Project.js")
-const Role = require("./Role.js")
 
 class User extends Model {
     constructor(values) {
@@ -61,3 +59,6 @@ class User extends Model {
 Model.bind(User, "users")
 
 module.exports = User
+
+const Project = require("./Project.js")
+const Role = require("./Role.js")

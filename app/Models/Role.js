@@ -1,7 +1,6 @@
 const { v4: uuid } = require("uuid")
 
 const Model = require("../../lib/Model.js")
-const Permission = require("./Permission.js")
 const { queryAsync } = require("../utils")
 
 class Role extends Model {
@@ -44,3 +43,5 @@ class Role extends Model {
 Model.bind(Role, "roles")
 
 module.exports = Role
+
+const Permission = require("./Permission.js")

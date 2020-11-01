@@ -1,8 +1,5 @@
 const { v4: uuid } = require("uuid")
-const moment = require("moment")
 const Model = require("../../lib/Model.js")
-const User = require("../Models/User.js")
-const Competition = require("./Competition.js")
 const StorageFacade = require("../Facades/StorageFacade.js")
 
 class Image extends Model {
