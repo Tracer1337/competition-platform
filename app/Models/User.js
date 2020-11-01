@@ -1,5 +1,6 @@
 const moment = require("moment")
 const Model = require("../../lib/Model.js")
+const LevelServiceProvider = require("../Services/LevelServiceProvider.js")
 
 class User extends Model {
     constructor(values) {
@@ -11,11 +12,21 @@ class User extends Model {
             },
             ...values
         })
+
+        this.level = null
+        this.pointsRequired = null
+        this.pointsDone = null
     }
 
     async init() {
         this.created_at = moment(this.created_at)
         this.role = await Role.findBy("id", this.role_id)
+        
+        const [level, pointsRequired, pointsDone] = LevelServiceProvider.getLevelDetails(this.points)
+        
+        this.level = level
+        this.pointsRequired = pointsRequired
+        this.pointsDone = pointsDone
     }
 
     async delete() {
@@ -52,7 +63,10 @@ class User extends Model {
             avatar: this.avatar,
             created_at: this.created_at,
             role: this.role,
-            points: this.points
+            points: this.points,
+            level: this.level,
+            pointsRequired: this.pointsRequired,
+            pointsDone: this.pointsDone
         }
     }
 }

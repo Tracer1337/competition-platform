@@ -45,6 +45,7 @@
 * Admin Panel
     * Liste aller Benutzer
     * Rollen ändern
+    * Warnung: "Wollen sie wirklich ihre eigene Rolle ändern"
 
 * Level
     * Jeder Benutzer startet bei Level 1

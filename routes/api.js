@@ -41,6 +41,7 @@ router.post("/projects/vote/:id", ProtectMiddleware, ProjectController.vote)
 router.delete("/projects/vote/:id", ProtectMiddleware, ProjectController.deleteVote)
 
 router.get("/users", ProtectMiddleware, UserController.getAll)
+router.get("/users/:id", UserController.getOne)
 router.post("/users/:id", ProtectMiddleware, UserController.update)
 router.delete("/users/:id", ProtectMiddleware, UserController.remove)
 

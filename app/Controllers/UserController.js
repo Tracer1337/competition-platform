@@ -12,6 +12,16 @@ async function getAll(req, res) {
     res.send(models)
 }
 
+async function getOne(req, res) {
+    const model = await User.findBy("id", req.params.id)
+
+    if (!model) {
+        return res.status(404).end()
+    }
+
+    res.send(model)
+}
+
 async function update(req, res) {
     if (!req.user.can("update any user")) {
         return res.status(403).end()
@@ -48,4 +58,4 @@ async function remove(req, res) {
     res.send(model)
 }
 
-module.exports = { getAll, update, remove }
+module.exports = { getAll, getOne, update, remove }

@@ -7,14 +7,14 @@ import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
     avatar: {
-        cursor: "pointer",
+        cursor: props => !props.notClickable && "pointer",
         width: props => props.size,
         height: props => props.size
     }
 }))
 
-function Avatar({ user, size, className }) {
-    const classes = useStyles({ size })
+function Avatar({ user, size, className, notClickable = false }) {
+    const classes = useStyles({ size, notClickable })
 
     const history = useHistory()
     
@@ -25,6 +25,10 @@ function Avatar({ user, size, className }) {
     }
 
     const handleClick = () => {
+        if (notClickable) {
+            return
+        }
+
         if (!user || user.id === authUser.id) {
             history.push("/profile")
         } else {

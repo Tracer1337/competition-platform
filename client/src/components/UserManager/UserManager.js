@@ -40,6 +40,14 @@ const columns = [
         field: "created_at",
         headerName: "Created At",
         width: 150
+    },
+    {
+        field: "points",
+        headerName: "Points"
+    },
+    {
+        field: "level",
+        headerName: "Level"
     }
 ]
 

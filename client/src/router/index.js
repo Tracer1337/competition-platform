@@ -13,6 +13,7 @@ import EditCompetitionPage from "../pages/EditCompetitionPage.js"
 import CreateProjectPage from "../pages/CreateProjectPage.js"
 import EditProjectPage from "../pages/EditProjectPage.js"
 import AdminPage from "../pages/AdminPage.js"
+import UserPage from "../pages/UserPage.js"
 
 function Router() {
     return (
@@ -52,6 +53,10 @@ function Router() {
 
                 <Route path="/competition/:id">
                     <CompetitionPage/>
+                </Route>
+
+                <Route path="/user/:id">
+                    <UserPage/>
                 </Route>
 
                 <Route path="/" exact>

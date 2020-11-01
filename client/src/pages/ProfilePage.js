@@ -1,15 +1,16 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { Button, Typography } from "@material-ui/core"
+import { Button } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
 import Layout from "../components/Layout/Layout.js"
-import Username from "../components/User/Username.js"
+import Profile from "../components/User/Profile.js"
+import LevelBar from "../components/User/LevelBar.js"
 import { logout } from "../store/actions.js"
 
 const useStyles = makeStyles(theme => ({
     spacingBottom: {
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(4)
     }
 }))
 
@@ -22,8 +23,9 @@ function ProfilePage() {
 
     return (
         <Layout>
-            <Typography className={classes.spacingBottom} variant="h6">Logged in as: <Username user={user} notClickable/></Typography>
-            <Typography className={classes.spacingBottom} variant="h6">{user.role.name}</Typography>
+            <Profile user={user} className={classes.spacingBottom}/>
+
+            <LevelBar user={user} className={classes.spacingBottom}/>
 
             <Button variant="contained" onClick={() => dispatch(logout())}>Logout</Button>
         </Layout>

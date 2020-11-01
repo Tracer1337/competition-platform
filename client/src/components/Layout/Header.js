@@ -9,7 +9,8 @@ import Auth from "../User/Auth.js"
 
 const useStyles = makeStyles(theme => ({
     header: {
-        margin: `${theme.spacing(4)}px 0`
+        marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(6)
     }
 }))
 
