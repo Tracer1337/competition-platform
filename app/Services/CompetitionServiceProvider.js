@@ -28,6 +28,7 @@ async function canVoteForProject(user, project) {
         INNER JOIN projects ON votes.project_id = projects.id 
         INNER JOIN competitions ON projects.competition_id = competitions.id 
         WHERE competitions.id = '${project.competition_id}'
+        AND votes.user_id = '${user.id}'
     `))[0]
 
     amountOfVotesInCompetition = Object.values(amountOfVotesInCompetition)[0]
