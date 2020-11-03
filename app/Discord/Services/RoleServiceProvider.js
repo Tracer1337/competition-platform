@@ -33,7 +33,10 @@ class RoleServiceProvider {
         const role = await RoleServiceProvider.getRole(guild, roleName)
 
         const guildMember = await guild.members.fetch(user.id)
-        await guildMember.roles.remove(role)
+
+        try {
+            await guildMember.roles.remove(role)
+        } catch {}
     }
 
     static async createAssignRole(guild, { name, color }, user) {
@@ -42,7 +45,7 @@ class RoleServiceProvider {
         if (!role) {
             role = await RoleServiceProvider.createRole(guild, { name, color })
         }
-
+        
         await RoleServiceProvider.assignRole(guild, user, role)
     }
 }
