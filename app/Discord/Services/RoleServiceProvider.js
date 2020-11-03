@@ -39,12 +39,18 @@ class RoleServiceProvider {
         } catch {}
     }
 
-    static async createAssignRole(guild, { name, color }, user) {
+    static async getCreateRole(guild, { name, color }) {
         let role = await RoleServiceProvider.getRole(guild, name)
 
         if (!role) {
             role = await RoleServiceProvider.createRole(guild, { name, color })
         }
+
+        return role
+    }
+
+    static async createAssignRole(guild, { name, color }, user) {
+        const role = await RoleServiceProvider.getCreateRole(guild, { name, color })
         
         await RoleServiceProvider.assignRole(guild, user, role)
     }
