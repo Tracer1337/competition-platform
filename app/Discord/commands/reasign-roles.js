@@ -33,7 +33,7 @@ async function run(args, message) {
 
 module.exports = {
     run,
-    desc: "Removes and reasigns all roles which are handled through the bot. Useful when some users got roles they aren't supposed to have.",
+    desc: "Removes and reasigns all roles which are handled by the bot. Useful when some users got roles they aren't supposed to have.",
     usage: "reasign-roles",
     alias: [],
     permissions: ["MANAGE_ROLES"]
